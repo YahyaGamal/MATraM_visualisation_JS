@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node Visualization</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 20px;
+      }
+      canvas {
+       
+        display: block;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Node Visualization</h1>
+
+    <canvas id="nodeCanvas" width="600" height="600"></canvas>
+    <p>Loading: <span id="status">idle</span></p>
+
+    <script type="module">
+      var worker = null;
+      function init() {
+        const canvas = document.getElementById("nodeCanvas");
+        const offscreen = canvas.transferControlToOffscreen();
+        const rect = canvas.getBoundingClientRect();
+        worker = new Worker("../js/worker.js", { type: "module" });
+ 
+        worker.postMessage(
+          {
+            type: "init",
+            canvas: offscreen,
+            desiredWidth: Math.round(rect.width),
+            desiredHeight: Math.round(rect.height),
+            nodeFile: "../data/static/node_list.csv",
+            edgeFile: "../data/static/link_list.csv",
+          },
+          [offscreen],
+        );
+      }
+      document.addEventListener("DOMContentLoaded", init());
+    </script>
+  </body>
+</html>

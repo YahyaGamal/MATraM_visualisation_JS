@@ -1,0 +1,1275 @@
+id,start,end,maxspeed,junction
+l_0,n_id0,n_id1,20 mph,None
+l_1,n_id1,n_id2,20 mph,None
+l_2,n_id2,n_id3,20 mph,None
+l_3,n_id3,n_id4,20 mph,None
+l_4,n_id4,n_id5,20 mph,None
+l_5,n_id5,n_id6,20 mph,None
+l_6,n_id6,n_id7,20 mph,None
+l_7,n_id7,n_id8,20 mph,None
+l_8,n_id9,n_id10,30 mph,None
+l_9,n_id10,n_id11,30 mph,None
+l_10,n_id11,n_id12,30 mph,None
+l_11,n_id13,n_id14,None,None
+l_12,n_id14,n_id15,None,None
+l_13,n_id15,n_id16,None,None
+l_14,n_id16,n_id17,None,None
+l_15,n_id8,n_id18,30 mph,None
+l_16,n_id18,n_id19,30 mph,None
+l_17,n_id19,n_id20,30 mph,None
+l_18,n_id20,n_id21,30 mph,None
+l_19,n_id21,n_id22,30 mph,None
+l_20,n_id22,n_id23,30 mph,None
+l_21,n_id23,n_id24,30 mph,None
+l_22,n_id24,n_id13,30 mph,None
+l_23,n_id13,n_id25,30 mph,None
+l_24,n_id25,n_id26,30 mph,None
+l_25,n_id26,n_id27,30 mph,None
+l_26,n_id28,n_id29,20 mph,None
+l_27,n_id29,n_id30,20 mph,None
+l_28,n_id31,n_id32,None,None
+l_29,n_id32,n_id33,None,None
+l_30,n_id33,n_id34,None,None
+l_31,n_id34,n_id35,None,None
+l_32,n_id35,n_id36,None,None
+l_33,n_id36,n_id37,None,None
+l_34,n_id38,n_id39,20 mph,None
+l_35,n_id29,n_id40,20 mph,None
+l_36,n_id40,n_id38,20 mph,None
+l_37,n_id38,n_id41,20 mph,None
+l_38,n_id42,n_id43,20 mph,None
+l_39,n_id43,n_id44,20 mph,None
+l_40,n_id44,n_id45,20 mph,None
+l_41,n_id45,n_id46,20 mph,None
+l_42,n_id46,n_id47,20 mph,None
+l_43,n_id47,n_id41,20 mph,None
+l_44,n_id41,n_id48,20 mph,None
+l_45,n_id49,n_id50,20 mph,None
+l_46,n_id50,n_id51,20 mph,None
+l_47,n_id51,n_id52,20 mph,None
+l_48,n_id52,n_id53,20 mph,None
+l_49,n_id53,n_id54,20 mph,None
+l_50,n_id54,n_id55,20 mph,None
+l_51,n_id55,n_id56,20 mph,None
+l_52,n_id56,n_id57,20 mph,None
+l_53,n_id57,n_id58,20 mph,None
+l_54,n_id58,n_id59,20 mph,None
+l_55,n_id56,n_id60,20 mph,None
+l_56,n_id60,n_id61,20 mph,None
+l_57,n_id61,n_id62,20 mph,None
+l_58,n_id62,n_id63,20 mph,None
+l_59,n_id63,n_id64,20 mph,None
+l_60,n_id64,n_id65,20 mph,None
+l_61,n_id65,n_id66,20 mph,None
+l_62,n_id66,n_id67,20 mph,None
+l_63,n_id67,n_id68,20 mph,None
+l_64,n_id68,n_id69,20 mph,None
+l_65,n_id69,n_id70,20 mph,None
+l_66,n_id70,n_id71,20 mph,None
+l_67,n_id71,n_id72,20 mph,None
+l_68,n_id72,n_id52,20 mph,None
+l_69,n_id51,n_id73,None,None
+l_70,n_id74,n_id75,20 mph,None
+l_71,n_id75,n_id76,20 mph,None
+l_72,n_id76,n_id77,20 mph,None
+l_73,n_id77,n_id78,20 mph,None
+l_74,n_id78,n_id79,20 mph,None
+l_75,n_id79,n_id80,20 mph,None
+l_76,n_id80,n_id81,20 mph,None
+l_77,n_id81,n_id82,20 mph,None
+l_78,n_id82,n_id83,20 mph,None
+l_79,n_id83,n_id84,20 mph,None
+l_80,n_id84,n_id85,20 mph,None
+l_81,n_id85,n_id86,20 mph,None
+l_82,n_id86,n_id87,20 mph,None
+l_83,n_id87,n_id88,20 mph,None
+l_84,n_id88,n_id89,20 mph,None
+l_85,n_id89,n_id90,20 mph,None
+l_86,n_id90,n_id91,20 mph,None
+l_87,n_id91,n_id92,20 mph,None
+l_88,n_id92,n_id93,20 mph,None
+l_89,n_id93,n_id94,20 mph,None
+l_90,n_id94,n_id95,20 mph,None
+l_91,n_id95,n_id96,20 mph,None
+l_92,n_id96,n_id97,20 mph,None
+l_93,n_id97,n_id98,20 mph,None
+l_94,n_id98,n_id99,20 mph,None
+l_95,n_id99,n_id100,20 mph,None
+l_96,n_id100,n_id101,20 mph,None
+l_97,n_id102,n_id103,None,None
+l_98,n_id103,n_id104,None,None
+l_99,n_id104,n_id105,None,None
+l_100,n_id105,n_id106,None,None
+l_101,n_id106,n_id107,None,None
+l_102,n_id89,n_id108,None,None
+l_103,n_id108,n_id109,None,None
+l_104,n_id109,n_id110,None,None
+l_105,n_id110,n_id111,None,None
+l_106,n_id111,n_id112,None,None
+l_107,n_id112,n_id113,None,None
+l_108,n_id113,n_id114,None,None
+l_109,n_id114,n_id115,None,None
+l_110,n_id115,n_id116,None,None
+l_111,n_id116,n_id117,None,None
+l_112,n_id79,n_id118,20 mph,None
+l_113,n_id118,n_id119,20 mph,None
+l_114,n_id119,n_id120,20 mph,None
+l_115,n_id120,n_id121,20 mph,None
+l_116,n_id121,n_id122,20 mph,None
+l_117,n_id122,n_id123,20 mph,None
+l_118,n_id123,n_id124,20 mph,None
+l_119,n_id124,n_id125,20 mph,None
+l_120,n_id125,n_id126,20 mph,None
+l_121,n_id126,n_id127,20 mph,None
+l_122,n_id127,n_id128,20 mph,None
+l_123,n_id128,n_id129,20 mph,None
+l_124,n_id129,n_id130,20 mph,None
+l_125,n_id130,n_id131,20 mph,None
+l_126,n_id131,n_id132,20 mph,None
+l_127,n_id132,n_id133,20 mph,None
+l_128,n_id133,n_id134,20 mph,None
+l_129,n_id134,n_id135,20 mph,None
+l_130,n_id135,n_id136,20 mph,None
+l_131,n_id136,n_id113,20 mph,None
+l_132,n_id137,n_id138,20 mph,None
+l_133,n_id138,n_id139,20 mph,None
+l_134,n_id139,n_id140,20 mph,None
+l_135,n_id140,n_id141,20 mph,None
+l_136,n_id141,n_id142,20 mph,None
+l_137,n_id142,n_id143,20 mph,None
+l_138,n_id143,n_id144,20 mph,None
+l_139,n_id144,n_id145,20 mph,None
+l_140,n_id145,n_id146,20 mph,None
+l_141,n_id146,n_id147,20 mph,None
+l_142,n_id147,n_id148,20 mph,None
+l_143,n_id148,n_id149,20 mph,None
+l_144,n_id149,n_id150,20 mph,None
+l_145,n_id150,n_id75,20 mph,None
+l_146,n_id151,n_id152,None,None
+l_147,n_id152,n_id153,None,None
+l_148,n_id102,n_id154,None,None
+l_149,n_id154,n_id155,None,None
+l_150,n_id155,n_id156,None,None
+l_151,n_id156,n_id157,None,None
+l_152,n_id157,n_id158,None,None
+l_153,n_id158,n_id159,None,None
+l_154,n_id159,n_id160,None,None
+l_155,n_id160,n_id161,None,None
+l_156,n_id161,n_id162,None,None
+l_157,n_id162,n_id163,None,None
+l_158,n_id163,n_id164,None,None
+l_159,n_id164,n_id165,None,None
+l_160,n_id165,n_id166,None,None
+l_161,n_id166,n_id167,None,None
+l_162,n_id167,n_id168,None,None
+l_163,n_id168,n_id169,None,None
+l_164,n_id159,n_id170,None,None
+l_165,n_id171,n_id172,30 mph,None
+l_166,n_id172,n_id173,30 mph,None
+l_167,n_id173,n_id174,30 mph,None
+l_168,n_id174,n_id175,30 mph,None
+l_169,n_id175,n_id176,30 mph,None
+l_170,n_id176,n_id177,30 mph,None
+l_171,n_id12,n_id178,30 mph,None
+l_172,n_id178,n_id179,30 mph,None
+l_173,n_id179,n_id180,30 mph,None
+l_174,n_id180,n_id181,30 mph,None
+l_175,n_id181,n_id182,30 mph,None
+l_176,n_id182,n_id183,30 mph,None
+l_177,n_id183,n_id184,30 mph,None
+l_178,n_id184,n_id185,30 mph,None
+l_179,n_id185,n_id186,30 mph,None
+l_180,n_id186,n_id187,30 mph,None
+l_181,n_id11,n_id188,20 mph,None
+l_182,n_id188,n_id189,20 mph,None
+l_183,n_id189,n_id190,20 mph,None
+l_184,n_id190,n_id191,20 mph,None
+l_185,n_id191,n_id192,20 mph,None
+l_186,n_id192,n_id193,20 mph,None
+l_187,n_id194,n_id195,20 mph,None
+l_188,n_id195,n_id196,20 mph,None
+l_189,n_id196,n_id197,20 mph,None
+l_190,n_id197,n_id198,20 mph,None
+l_191,n_id198,n_id199,20 mph,None
+l_192,n_id199,n_id200,20 mph,None
+l_193,n_id200,n_id201,20 mph,None
+l_194,n_id201,n_id202,20 mph,None
+l_195,n_id202,n_id203,20 mph,None
+l_196,n_id203,n_id204,20 mph,None
+l_197,n_id204,n_id205,20 mph,None
+l_198,n_id205,n_id206,20 mph,None
+l_199,n_id206,n_id207,20 mph,None
+l_200,n_id207,n_id208,20 mph,None
+l_201,n_id208,n_id209,20 mph,None
+l_202,n_id209,n_id210,20 mph,None
+l_203,n_id210,n_id211,20 mph,None
+l_204,n_id211,n_id212,20 mph,None
+l_205,n_id212,n_id213,20 mph,None
+l_206,n_id213,n_id214,20 mph,None
+l_207,n_id201,n_id215,None,None
+l_208,n_id215,n_id216,None,None
+l_209,n_id216,n_id217,None,None
+l_210,n_id217,n_id218,None,None
+l_211,n_id218,n_id219,None,None
+l_212,n_id219,n_id220,None,None
+l_213,n_id220,n_id221,None,None
+l_214,n_id221,n_id222,None,None
+l_215,n_id222,n_id223,None,None
+l_216,n_id223,n_id224,None,None
+l_217,n_id224,n_id225,None,None
+l_218,n_id225,n_id226,None,None
+l_219,n_id226,n_id227,None,None
+l_220,n_id227,n_id228,None,None
+l_221,n_id228,n_id229,None,None
+l_222,n_id229,n_id230,None,None
+l_223,n_id230,n_id231,None,None
+l_224,n_id231,n_id232,None,None
+l_225,n_id232,n_id233,None,None
+l_226,n_id233,n_id205,None,None
+l_227,n_id209,n_id234,None,None
+l_228,n_id234,n_id235,None,None
+l_229,n_id236,n_id237,20 mph,None
+l_230,n_id237,n_id238,20 mph,None
+l_231,n_id238,n_id239,20 mph,None
+l_232,n_id239,n_id240,20 mph,None
+l_233,n_id240,n_id241,20 mph,None
+l_234,n_id241,n_id242,20 mph,None
+l_235,n_id242,n_id243,20 mph,None
+l_236,n_id243,n_id244,20 mph,None
+l_237,n_id244,n_id245,20 mph,None
+l_238,n_id245,n_id246,20 mph,None
+l_239,n_id246,n_id247,20 mph,None
+l_240,n_id247,n_id248,20 mph,None
+l_241,n_id248,n_id249,20 mph,None
+l_242,n_id249,n_id250,20 mph,None
+l_243,n_id250,n_id251,20 mph,None
+l_244,n_id251,n_id252,20 mph,None
+l_245,n_id252,n_id253,20 mph,None
+l_246,n_id253,n_id254,20 mph,None
+l_247,n_id254,n_id255,20 mph,None
+l_248,n_id255,n_id256,20 mph,None
+l_249,n_id256,n_id257,20 mph,None
+l_250,n_id257,n_id258,20 mph,None
+l_251,n_id258,n_id259,20 mph,None
+l_252,n_id259,n_id260,20 mph,None
+l_253,n_id260,n_id261,20 mph,None
+l_254,n_id261,n_id262,20 mph,None
+l_255,n_id262,n_id263,20 mph,None
+l_256,n_id263,n_id264,20 mph,None
+l_257,n_id264,n_id265,20 mph,None
+l_258,n_id265,n_id266,20 mph,None
+l_259,n_id266,n_id267,20 mph,None
+l_260,n_id267,n_id213,20 mph,None
+l_261,n_id205,n_id268,20 mph,None
+l_262,n_id268,n_id251,20 mph,None
+l_263,n_id269,n_id270,20 mph,None
+l_264,n_id270,n_id271,20 mph,None
+l_265,n_id271,n_id272,20 mph,None
+l_266,n_id272,n_id273,20 mph,None
+l_267,n_id273,n_id274,20 mph,None
+l_268,n_id274,n_id275,20 mph,None
+l_269,n_id275,n_id276,20 mph,None
+l_270,n_id276,n_id277,20 mph,None
+l_271,n_id277,n_id278,20 mph,None
+l_272,n_id278,n_id279,20 mph,None
+l_273,n_id279,n_id280,20 mph,None
+l_274,n_id280,n_id281,20 mph,None
+l_275,n_id281,n_id282,20 mph,None
+l_276,n_id282,n_id283,20 mph,None
+l_277,n_id283,n_id284,20 mph,None
+l_278,n_id284,n_id285,20 mph,None
+l_279,n_id285,n_id286,20 mph,None
+l_280,n_id286,n_id287,20 mph,None
+l_281,n_id287,n_id288,20 mph,None
+l_282,n_id278,n_id289,20 mph,None
+l_283,n_id289,n_id290,20 mph,None
+l_284,n_id290,n_id291,20 mph,None
+l_285,n_id291,n_id292,20 mph,None
+l_286,n_id292,n_id293,20 mph,None
+l_287,n_id293,n_id294,20 mph,None
+l_288,n_id294,n_id295,20 mph,None
+l_289,n_id295,n_id296,20 mph,None
+l_290,n_id296,n_id297,20 mph,None
+l_291,n_id297,n_id298,20 mph,None
+l_292,n_id298,n_id299,20 mph,None
+l_293,n_id299,n_id300,20 mph,None
+l_294,n_id300,n_id301,20 mph,None
+l_295,n_id301,n_id302,20 mph,None
+l_296,n_id302,n_id303,20 mph,None
+l_297,n_id303,n_id283,20 mph,None
+l_298,n_id304,n_id305,20 mph,None
+l_299,n_id305,n_id306,20 mph,None
+l_300,n_id306,n_id307,20 mph,None
+l_301,n_id307,n_id308,20 mph,None
+l_302,n_id308,n_id309,20 mph,None
+l_303,n_id309,n_id310,20 mph,None
+l_304,n_id310,n_id311,20 mph,None
+l_305,n_id311,n_id312,20 mph,None
+l_306,n_id312,n_id313,20 mph,None
+l_307,n_id313,n_id314,20 mph,None
+l_308,n_id314,n_id315,20 mph,None
+l_309,n_id315,n_id316,20 mph,None
+l_310,n_id316,n_id317,20 mph,None
+l_311,n_id317,n_id318,20 mph,None
+l_312,n_id318,n_id319,20 mph,None
+l_313,n_id319,n_id320,20 mph,None
+l_314,n_id320,n_id321,20 mph,None
+l_315,n_id321,n_id322,20 mph,None
+l_316,n_id322,n_id323,20 mph,None
+l_317,n_id323,n_id324,20 mph,None
+l_318,n_id324,n_id325,20 mph,None
+l_319,n_id325,n_id326,20 mph,None
+l_320,n_id326,n_id327,20 mph,None
+l_321,n_id327,n_id328,20 mph,None
+l_322,n_id328,n_id329,20 mph,None
+l_323,n_id329,n_id330,20 mph,None
+l_324,n_id330,n_id331,20 mph,None
+l_325,n_id331,n_id332,20 mph,None
+l_326,n_id332,n_id333,20 mph,None
+l_327,n_id333,n_id334,20 mph,None
+l_328,n_id334,n_id335,20 mph,None
+l_329,n_id335,n_id336,20 mph,None
+l_330,n_id336,n_id337,20 mph,None
+l_331,n_id337,n_id338,20 mph,None
+l_332,n_id338,n_id339,20 mph,None
+l_333,n_id339,n_id340,20 mph,None
+l_334,n_id340,n_id341,20 mph,None
+l_335,n_id341,n_id342,20 mph,None
+l_336,n_id322,n_id343,20 mph,None
+l_337,n_id343,n_id344,20 mph,None
+l_338,n_id344,n_id345,20 mph,None
+l_339,n_id345,n_id346,20 mph,None
+l_340,n_id346,n_id347,20 mph,None
+l_341,n_id347,n_id348,20 mph,None
+l_342,n_id348,n_id349,20 mph,None
+l_343,n_id349,n_id350,20 mph,None
+l_344,n_id350,n_id351,20 mph,None
+l_345,n_id351,n_id352,20 mph,None
+l_346,n_id352,n_id353,20 mph,None
+l_347,n_id353,n_id354,20 mph,None
+l_348,n_id354,n_id355,20 mph,None
+l_349,n_id355,n_id356,20 mph,None
+l_350,n_id356,n_id357,20 mph,None
+l_351,n_id357,n_id358,20 mph,None
+l_352,n_id358,n_id359,20 mph,None
+l_353,n_id359,n_id360,20 mph,None
+l_354,n_id361,n_id362,20 mph,None
+l_355,n_id362,n_id363,20 mph,None
+l_356,n_id363,n_id364,20 mph,None
+l_357,n_id364,n_id365,20 mph,None
+l_358,n_id365,n_id366,20 mph,None
+l_359,n_id366,n_id367,20 mph,None
+l_360,n_id367,n_id368,20 mph,None
+l_361,n_id368,n_id369,20 mph,None
+l_362,n_id369,n_id370,20 mph,None
+l_363,n_id370,n_id371,20 mph,None
+l_364,n_id371,n_id372,20 mph,None
+l_365,n_id372,n_id373,20 mph,None
+l_366,n_id373,n_id374,20 mph,None
+l_367,n_id374,n_id375,20 mph,None
+l_368,n_id375,n_id376,20 mph,None
+l_369,n_id376,n_id377,20 mph,None
+l_370,n_id377,n_id378,20 mph,None
+l_371,n_id378,n_id379,20 mph,None
+l_372,n_id379,n_id380,20 mph,None
+l_373,n_id380,n_id381,20 mph,None
+l_374,n_id381,n_id382,20 mph,None
+l_375,n_id382,n_id383,20 mph,None
+l_376,n_id383,n_id384,20 mph,None
+l_377,n_id384,n_id385,20 mph,None
+l_378,n_id385,n_id386,20 mph,None
+l_379,n_id386,n_id387,20 mph,None
+l_380,n_id388,n_id389,20 mph,None
+l_381,n_id389,n_id390,20 mph,None
+l_382,n_id390,n_id391,20 mph,None
+l_383,n_id391,n_id392,20 mph,None
+l_384,n_id392,n_id387,20 mph,None
+l_385,n_id387,n_id393,20 mph,None
+l_386,n_id393,n_id394,20 mph,None
+l_387,n_id394,n_id395,20 mph,None
+l_388,n_id395,n_id396,20 mph,None
+l_389,n_id396,n_id397,20 mph,None
+l_390,n_id397,n_id360,20 mph,None
+l_391,n_id360,n_id398,20 mph,None
+l_392,n_id398,n_id399,20 mph,None
+l_393,n_id399,n_id400,20 mph,None
+l_394,n_id400,n_id401,20 mph,None
+l_395,n_id401,n_id402,20 mph,None
+l_396,n_id402,n_id403,20 mph,None
+l_397,n_id403,n_id404,20 mph,None
+l_398,n_id399,n_id405,None,None
+l_399,n_id405,n_id406,None,None
+l_400,n_id407,n_id408,20 mph,None
+l_401,n_id408,n_id409,20 mph,None
+l_402,n_id409,n_id410,20 mph,None
+l_403,n_id410,n_id411,20 mph,None
+l_404,n_id411,n_id412,20 mph,None
+l_405,n_id412,n_id413,20 mph,None
+l_406,n_id413,n_id414,20 mph,None
+l_407,n_id414,n_id415,20 mph,None
+l_408,n_id415,n_id416,20 mph,None
+l_409,n_id416,n_id417,20 mph,None
+l_410,n_id417,n_id418,20 mph,None
+l_411,n_id418,n_id419,20 mph,None
+l_412,n_id419,n_id420,20 mph,None
+l_413,n_id420,n_id421,20 mph,None
+l_414,n_id421,n_id422,20 mph,None
+l_415,n_id422,n_id423,20 mph,None
+l_416,n_id423,n_id424,20 mph,None
+l_417,n_id424,n_id425,20 mph,None
+l_418,n_id425,n_id426,20 mph,None
+l_419,n_id426,n_id427,20 mph,None
+l_420,n_id427,n_id428,20 mph,None
+l_421,n_id428,n_id429,20 mph,None
+l_422,n_id429,n_id430,20 mph,None
+l_423,n_id430,n_id431,20 mph,None
+l_424,n_id431,n_id432,20 mph,None
+l_425,n_id432,n_id433,20 mph,None
+l_426,n_id433,n_id434,20 mph,None
+l_427,n_id434,n_id435,20 mph,None
+l_428,n_id435,n_id436,20 mph,None
+l_429,n_id436,n_id437,20 mph,None
+l_430,n_id437,n_id438,20 mph,None
+l_431,n_id432,n_id439,20 mph,None
+l_432,n_id439,n_id440,20 mph,None
+l_433,n_id440,n_id441,20 mph,None
+l_434,n_id441,n_id442,20 mph,None
+l_435,n_id442,n_id443,20 mph,None
+l_436,n_id443,n_id444,20 mph,None
+l_437,n_id444,n_id445,20 mph,None
+l_438,n_id445,n_id446,20 mph,None
+l_439,n_id446,n_id447,20 mph,None
+l_440,n_id447,n_id448,20 mph,None
+l_441,n_id448,n_id449,20 mph,None
+l_442,n_id449,n_id450,20 mph,None
+l_443,n_id450,n_id451,20 mph,None
+l_444,n_id451,n_id452,20 mph,None
+l_445,n_id452,n_id453,20 mph,None
+l_446,n_id453,n_id454,20 mph,None
+l_447,n_id454,n_id455,20 mph,None
+l_448,n_id456,n_id457,20 mph,None
+l_449,n_id457,n_id458,20 mph,None
+l_450,n_id458,n_id459,20 mph,None
+l_451,n_id459,n_id460,20 mph,None
+l_452,n_id460,n_id461,20 mph,None
+l_453,n_id461,n_id462,20 mph,None
+l_454,n_id462,n_id463,20 mph,None
+l_455,n_id463,n_id464,20 mph,None
+l_456,n_id464,n_id465,20 mph,None
+l_457,n_id465,n_id466,20 mph,None
+l_458,n_id466,n_id467,20 mph,None
+l_459,n_id467,n_id468,20 mph,None
+l_460,n_id468,n_id469,20 mph,None
+l_461,n_id469,n_id470,20 mph,None
+l_462,n_id470,n_id471,20 mph,None
+l_463,n_id471,n_id472,20 mph,None
+l_464,n_id472,n_id473,20 mph,None
+l_465,n_id473,n_id474,20 mph,None
+l_466,n_id474,n_id455,20 mph,None
+l_467,n_id455,n_id475,20 mph,None
+l_468,n_id475,n_id476,20 mph,None
+l_469,n_id476,n_id477,20 mph,None
+l_470,n_id477,n_id478,20 mph,None
+l_471,n_id478,n_id479,20 mph,None
+l_472,n_id479,n_id480,20 mph,None
+l_473,n_id480,n_id481,20 mph,None
+l_474,n_id481,n_id482,20 mph,None
+l_475,n_id482,n_id483,20 mph,None
+l_476,n_id420,n_id484,20 mph,None
+l_477,n_id484,n_id485,20 mph,None
+l_478,n_id485,n_id486,20 mph,None
+l_479,n_id486,n_id487,20 mph,None
+l_480,n_id487,n_id488,20 mph,None
+l_481,n_id488,n_id489,20 mph,None
+l_482,n_id489,n_id490,20 mph,None
+l_483,n_id490,n_id491,20 mph,None
+l_484,n_id491,n_id492,20 mph,None
+l_485,n_id492,n_id493,20 mph,None
+l_486,n_id493,n_id494,20 mph,None
+l_487,n_id494,n_id495,20 mph,None
+l_488,n_id495,n_id496,20 mph,None
+l_489,n_id496,n_id497,20 mph,None
+l_490,n_id497,n_id498,20 mph,None
+l_491,n_id499,n_id500,30 mph,None
+l_492,n_id500,n_id501,30 mph,None
+l_493,n_id501,n_id502,30 mph,None
+l_494,n_id502,n_id503,30 mph,None
+l_495,n_id503,n_id504,30 mph,None
+l_496,n_id504,n_id505,30 mph,None
+l_497,n_id505,n_id506,30 mph,None
+l_498,n_id506,n_id507,30 mph,None
+l_499,n_id507,n_id508,30 mph,None
+l_500,n_id508,n_id509,30 mph,None
+l_501,n_id509,n_id510,30 mph,None
+l_502,n_id510,n_id511,30 mph,None
+l_503,n_id511,n_id512,30 mph,None
+l_504,n_id512,n_id513,30 mph,None
+l_505,n_id513,n_id514,30 mph,None
+l_506,n_id514,n_id515,30 mph,None
+l_507,n_id515,n_id516,30 mph,None
+l_508,n_id516,n_id517,30 mph,None
+l_509,n_id517,n_id518,30 mph,None
+l_510,n_id518,n_id519,30 mph,None
+l_511,n_id519,n_id520,30 mph,None
+l_512,n_id520,n_id521,30 mph,None
+l_513,n_id521,n_id522,30 mph,None
+l_514,n_id522,n_id523,30 mph,None
+l_515,n_id523,n_id524,30 mph,None
+l_516,n_id525,n_id526,None,None
+l_517,n_id526,n_id527,None,None
+l_518,n_id527,n_id528,None,None
+l_519,n_id528,n_id529,None,None
+l_520,n_id529,n_id530,None,None
+l_521,n_id530,n_id531,None,None
+l_522,n_id531,n_id532,None,None
+l_523,n_id532,n_id533,None,None
+l_524,n_id533,n_id534,None,None
+l_525,n_id534,n_id535,None,None
+l_526,n_id535,n_id536,None,None
+l_527,n_id536,n_id537,None,None
+l_528,n_id537,n_id538,None,None
+l_529,n_id538,n_id539,None,None
+l_530,n_id539,n_id540,None,None
+l_531,n_id540,n_id541,None,None
+l_532,n_id541,n_id542,None,None
+l_533,n_id542,n_id543,None,None
+l_534,n_id543,n_id544,None,None
+l_535,n_id544,n_id545,None,None
+l_536,n_id546,n_id547,30 mph,None
+l_536_1,n_id547,n_id548,30 mph,None
+l_537,n_id548,n_id549,30 mph,None
+l_538,n_id549,n_id550,30 mph,None
+l_539,n_id550,n_id551,30 mph,None
+l_540,n_id551,n_id552,30 mph,None
+l_541,n_id552,n_id553,30 mph,None
+l_542,n_id553,n_id456,30 mph,None
+l_543,n_id554,n_id555,30 mph,None
+l_544,n_id555,n_id556,30 mph,None
+l_545,n_id556,n_id557,30 mph,None
+l_546,n_id557,n_id558,30 mph,None
+l_547,n_id558,n_id546,30 mph,None
+l_548,n_id498,n_id559,20 mph,None
+l_549,n_id559,n_id560,20 mph,None
+l_550,n_id560,n_id561,20 mph,None
+l_551,n_id561,n_id562,20 mph,None
+l_552,n_id562,n_id563,20 mph,None
+l_553,n_id563,n_id470,20 mph,None
+l_554,n_id390,n_id564,20 mph,None
+l_555,n_id564,n_id565,20 mph,None
+l_556,n_id565,n_id566,20 mph,None
+l_557,n_id566,n_id567,20 mph,None
+l_558,n_id567,n_id568,20 mph,None
+l_559,n_id568,n_id569,20 mph,None
+l_560,n_id569,n_id570,20 mph,None
+l_561,n_id570,n_id571,20 mph,None
+l_562,n_id571,n_id572,20 mph,None
+l_563,n_id572,n_id573,20 mph,None
+l_564,n_id573,n_id574,20 mph,None
+l_565,n_id574,n_id575,20 mph,None
+l_566,n_id575,n_id576,20 mph,None
+l_567,n_id576,n_id577,20 mph,None
+l_568,n_id577,n_id578,20 mph,None
+l_569,n_id578,n_id579,20 mph,None
+l_570,n_id579,n_id580,20 mph,None
+l_571,n_id580,n_id581,20 mph,None
+l_572,n_id581,n_id582,20 mph,None
+l_573,n_id582,n_id583,20 mph,None
+l_574,n_id583,n_id584,20 mph,None
+l_575,n_id584,n_id585,20 mph,None
+l_576,n_id585,n_id586,20 mph,None
+l_577,n_id8,n_id33,20 mph,None
+l_578,n_id33,n_id587,20 mph,None
+l_579,n_id587,n_id40,20 mph,None
+l_580,n_id40,n_id588,20 mph,None
+l_581,n_id588,n_id589,20 mph,None
+l_582,n_id589,n_id590,20 mph,None
+l_583,n_id590,n_id591,20 mph,None
+l_584,n_id9,n_id592,30 mph,None
+l_585,n_id592,n_id593,30 mph,None
+l_586,n_id593,n_id594,30 mph,None
+l_587,n_id594,n_id388,30 mph,None
+l_588,n_id388,n_id595,30 mph,None
+l_589,n_id595,n_id596,30 mph,None
+l_590,n_id596,n_id597,30 mph,None
+l_591,n_id597,n_id598,30 mph,None
+l_592,n_id598,n_id599,30 mph,None
+l_593,n_id599,n_id600,30 mph,None
+l_594,n_id600,n_id601,30 mph,None
+l_595,n_id601,n_id554,30 mph,None
+l_596,n_id39,n_id602,20 mph,None
+l_597,n_id602,n_id603,20 mph,None
+l_598,n_id603,n_id604,20 mph,None
+l_599,n_id604,n_id605,20 mph,None
+l_600,n_id605,n_id606,20 mph,None
+l_601,n_id606,n_id8,20 mph,None
+l_602,n_id595,n_id607,None,None
+l_603,n_id607,n_id608,None,None
+l_604,n_id608,n_id609,None,None
+l_605,n_id609,n_id610,None,None
+l_606,n_id610,n_id611,None,None
+l_607,n_id611,n_id612,None,None
+l_608,n_id612,n_id613,None,None
+l_609,n_id613,n_id614,None,None
+l_610,n_id614,n_id615,None,None
+l_611,n_id615,n_id616,None,None
+l_612,n_id616,n_id617,None,None
+l_613,n_id617,n_id618,None,None
+l_614,n_id618,n_id619,None,None
+l_615,n_id620,n_id558,None,None
+l_616,n_id621,n_id15,None,None
+l_617,n_id193,n_id622,20 mph,None
+l_618,n_id622,n_id623,20 mph,None
+l_619,n_id623,n_id624,20 mph,None
+l_620,n_id624,n_id625,20 mph,None
+l_621,n_id625,n_id626,20 mph,None
+l_622,n_id626,n_id627,20 mph,None
+l_623,n_id627,n_id628,20 mph,None
+l_624,n_id628,n_id629,20 mph,None
+l_625,n_id629,n_id630,20 mph,None
+l_626,n_id630,n_id631,20 mph,None
+l_627,n_id631,n_id632,20 mph,None
+l_628,n_id632,n_id633,20 mph,None
+l_629,n_id633,n_id634,20 mph,None
+l_630,n_id634,n_id635,20 mph,None
+l_631,n_id635,n_id636,20 mph,None
+l_632,n_id636,n_id101,20 mph,None
+l_633,n_id101,n_id637,20 mph,None
+l_634,n_id637,n_id638,20 mph,None
+l_635,n_id638,n_id639,20 mph,None
+l_636,n_id639,n_id640,20 mph,None
+l_637,n_id640,n_id641,20 mph,None
+l_638,n_id641,n_id642,20 mph,None
+l_639,n_id200,n_id643,20 mph,None
+l_640,n_id643,n_id244,20 mph,None
+l_641,n_id41,n_id644,20 mph,None
+l_642,n_id644,n_id645,20 mph,None
+l_643,n_id645,n_id646,20 mph,None
+l_644,n_id646,n_id647,20 mph,None
+l_645,n_id647,n_id648,20 mph,None
+l_646,n_id648,n_id649,20 mph,None
+l_647,n_id649,n_id236,20 mph,None
+l_648,n_id236,n_id650,20 mph,None
+l_649,n_id650,n_id651,20 mph,None
+l_650,n_id651,n_id59,20 mph,None
+l_651,n_id652,n_id653,20 mph,None
+l_652,n_id653,n_id654,20 mph,None
+l_653,n_id654,n_id655,20 mph,None
+l_654,n_id655,n_id656,20 mph,None
+l_655,n_id657,n_id658,30 mph,None
+l_656,n_id659,n_id660,20 mph,None
+l_657,n_id661,n_id662,20 mph,None
+l_658,n_id662,n_id663,20 mph,None
+l_659,n_id663,n_id664,20 mph,None
+l_660,n_id664,n_id665,20 mph,None
+l_661,n_id665,n_id666,20 mph,None
+l_662,n_id666,n_id667,20 mph,None
+l_663,n_id667,n_id668,20 mph,None
+l_664,n_id668,n_id669,20 mph,None
+l_665,n_id669,n_id670,20 mph,None
+l_666,n_id670,n_id671,20 mph,None
+l_667,n_id671,n_id672,20 mph,None
+l_668,n_id672,n_id673,20 mph,None
+l_669,n_id673,n_id674,20 mph,None
+l_670,n_id674,n_id675,20 mph,None
+l_671,n_id675,n_id676,20 mph,None
+l_672,n_id676,n_id677,20 mph,None
+l_673,n_id677,n_id214,20 mph,None
+l_674,n_id214,n_id678,20 mph,None
+l_675,n_id678,n_id269,20 mph,None
+l_676,n_id269,n_id304,20 mph,None
+l_677,n_id304,n_id679,20 mph,None
+l_678,n_id679,n_id652,20 mph,None
+l_679,n_id652,n_id680,20 mph,None
+l_680,n_id680,n_id681,20 mph,None
+l_681,n_id681,n_id682,20 mph,None
+l_682,n_id682,n_id361,20 mph,None
+l_683,n_id361,n_id683,20 mph,None
+l_684,n_id683,n_id9,20 mph,None
+l_685,n_id684,n_id685,30 mph,None
+l_686,n_id686,n_id687,None,None
+l_687,n_id687,n_id688,None,None
+l_688,n_id688,n_id689,None,None
+l_689,n_id689,n_id690,None,None
+l_690,n_id690,n_id691,None,None
+l_691,n_id691,n_id692,None,None
+l_692,n_id692,n_id693,None,None
+l_693,n_id693,n_id694,None,None
+l_694,n_id694,n_id695,None,None
+l_695,n_id696,n_id697,None,None
+l_696,n_id698,n_id699,None,None
+l_697,n_id699,n_id700,None,None
+l_698,n_id700,n_id701,None,None
+l_699,n_id701,n_id702,None,None
+l_700,n_id702,n_id703,None,None
+l_701,n_id703,n_id704,None,None
+l_702,n_id705,n_id706,30 mph,None
+l_703,n_id706,n_id707,30 mph,None
+l_704,n_id661,n_id708,20 mph,None
+l_705,n_id708,n_id659,20 mph,None
+l_706,n_id12,n_id709,30 mph,None
+l_707,n_id709,n_id171,30 mph,None
+l_708,n_id171,n_id710,30 mph,None
+l_709,n_id710,n_id711,30 mph,None
+l_710,n_id711,n_id712,30 mph,None
+l_711,n_id712,n_id102,30 mph,None
+l_712,n_id102,n_id713,30 mph,None
+l_713,n_id713,n_id714,30 mph,None
+l_714,n_id705,n_id715,None,None
+l_715,n_id38,n_id716,20 mph,None
+l_716,n_id716,n_id717,20 mph,None
+l_717,n_id717,n_id718,20 mph,None
+l_718,n_id718,n_id719,20 mph,None
+l_719,n_id719,n_id720,20 mph,None
+l_720,n_id720,n_id661,20 mph,None
+l_721,n_id721,n_id722,None,None
+l_722,n_id181,n_id723,30 mph,None
+l_723,n_id723,n_id724,30 mph,None
+l_724,n_id724,n_id725,30 mph,None
+l_725,n_id725,n_id726,30 mph,None
+l_726,n_id726,n_id727,30 mph,None
+l_727,n_id727,n_id728,30 mph,None
+l_728,n_id728,n_id729,30 mph,None
+l_729,n_id729,n_id730,30 mph,None
+l_730,n_id730,n_id731,30 mph,None
+l_731,n_id731,n_id732,30 mph,None
+l_732,n_id732,n_id733,30 mph,None
+l_733,n_id733,n_id734,30 mph,None
+l_734,n_id734,n_id735,30 mph,None
+l_735,n_id735,n_id736,30 mph,None
+l_736,n_id736,n_id737,30 mph,None
+l_737,n_id737,n_id738,30 mph,None
+l_738,n_id738,n_id739,30 mph,None
+l_739,n_id739,n_id740,30 mph,None
+l_740,n_id740,n_id741,30 mph,None
+l_741,n_id741,n_id742,30 mph,None
+l_742,n_id742,n_id743,30 mph,None
+l_743,n_id743,n_id744,30 mph,None
+l_744,n_id744,n_id745,30 mph,None
+l_745,n_id745,n_id746,30 mph,None
+l_746,n_id746,n_id747,30 mph,None
+l_747,n_id747,n_id748,30 mph,None
+l_748,n_id748,n_id749,30 mph,None
+l_749,n_id749,n_id750,30 mph,None
+l_750,n_id751,n_id752,30 mph,None
+l_751,n_id752,n_id753,30 mph,None
+l_752,n_id753,n_id754,30 mph,None
+l_753,n_id754,n_id755,30 mph,None
+l_754,n_id755,n_id756,30 mph,None
+l_755,n_id756,n_id757,30 mph,None
+l_756,n_id757,n_id758,30 mph,None
+l_757,n_id758,n_id704,30 mph,None
+l_758,n_id704,n_id695,30 mph,None
+l_759,n_id697,n_id722,None,None
+l_760,n_id613,n_id759,None,None
+l_761,n_id759,n_id760,None,None
+l_762,n_id760,n_id761,None,None
+l_763,n_id761,n_id762,None,None
+l_764,n_id762,n_id763,None,None
+l_765,n_id187,n_id177,30 mph,None
+l_766,n_id755,n_id764,None,None
+l_767,n_id764,n_id765,None,None
+l_768,n_id765,n_id766,None,None
+l_769,n_id766,n_id767,None,None
+l_770,n_id767,n_id722,None,None
+l_771,n_id495,n_id768,None,None
+l_772,n_id768,n_id769,None,None
+l_773,n_id769,n_id770,None,None
+l_774,n_id770,n_id771,None,None
+l_775,n_id771,n_id772,None,None
+l_776,n_id772,n_id773,None,None
+l_777,n_id773,n_id774,None,None
+l_778,n_id774,n_id475,None,None
+l_779,n_id696,n_id775,None,None
+l_780,n_id775,n_id776,None,None
+l_781,n_id776,n_id777,None,None
+l_782,n_id777,n_id778,None,None
+l_783,n_id778,n_id779,None,None
+l_784,n_id779,n_id780,None,None
+l_785,n_id780,n_id758,None,None
+l_786,n_id456,n_id781,30 mph,None
+l_787,n_id781,n_id782,30 mph,None
+l_788,n_id782,n_id783,30 mph,None
+l_789,n_id783,n_id784,30 mph,None
+l_790,n_id784,n_id785,30 mph,None
+l_791,n_id164,n_id786,None,None
+l_792,n_id684,n_id787,20 mph,None
+l_793,n_id787,n_id788,20 mph,None
+l_794,n_id788,n_id789,20 mph,None
+l_795,n_id789,n_id790,20 mph,None
+l_796,n_id790,n_id791,20 mph,None
+l_797,n_id791,n_id792,20 mph,None
+l_798,n_id792,n_id793,20 mph,None
+l_799,n_id793,n_id794,20 mph,None
+l_800,n_id794,n_id795,20 mph,None
+l_801,n_id795,n_id796,20 mph,None
+l_802,n_id796,n_id797,20 mph,None
+l_803,n_id797,n_id49,20 mph,None
+l_804,n_id49,n_id798,20 mph,None
+l_805,n_id798,n_id799,20 mph,None
+l_806,n_id799,n_id800,20 mph,None
+l_807,n_id800,n_id48,20 mph,None
+l_808,n_id48,n_id801,20 mph,None
+l_809,n_id801,n_id802,20 mph,None
+l_810,n_id802,n_id39,20 mph,None
+l_811,n_id685,n_id803,30 mph,None
+l_812,n_id689,n_id804,None,None
+l_813,n_id804,n_id805,None,None
+l_814,n_id805,n_id806,None,None
+l_815,n_id807,n_id806,None,None
+l_816,n_id806,n_id808,None,None
+l_817,n_id808,n_id804,None,None
+l_818,n_id809,n_id810,None,None
+l_819,n_id810,n_id811,None,None
+l_820,n_id811,n_id812,None,None
+l_821,n_id812,n_id813,None,None
+l_822,n_id813,n_id696,None,None
+l_823,n_id707,n_id814,30 mph,None
+l_824,n_id814,n_id815,30 mph,None
+l_825,n_id815,n_id686,30 mph,None
+l_826,n_id686,n_id698,30 mph,None
+l_827,n_id698,n_id809,30 mph,None
+l_828,n_id187,n_id816,30 mph,None
+l_829,n_id816,n_id817,30 mph,None
+l_830,n_id817,n_id818,30 mph,None
+l_831,n_id818,n_id819,30 mph,None
+l_832,n_id819,n_id820,30 mph,None
+l_833,n_id820,n_id821,30 mph,None
+l_834,n_id821,n_id705,30 mph,None
+l_835,n_id75,n_id822,20 mph,None
+l_836,n_id822,n_id823,20 mph,None
+l_837,n_id823,n_id824,20 mph,None
+l_838,n_id824,n_id825,20 mph,None
+l_839,n_id825,n_id826,20 mph,None
+l_840,n_id826,n_id827,20 mph,None
+l_841,n_id404,n_id828,20 mph,None
+l_842,n_id828,n_id829,20 mph,None
+l_843,n_id829,n_id830,20 mph,None
+l_844,n_id830,n_id831,20 mph,None
+l_845,n_id831,n_id832,20 mph,None
+l_846,n_id832,n_id833,20 mph,None
+l_847,n_id833,n_id834,20 mph,None
+l_848,n_id834,n_id835,20 mph,None
+l_849,n_id835,n_id836,20 mph,None
+l_850,n_id836,n_id837,20 mph,None
+l_851,n_id837,n_id838,20 mph,None
+l_852,n_id838,n_id586,20 mph,None
+l_853,n_id672,n_id839,None,None
+l_854,n_id839,n_id840,None,None
+l_855,n_id840,n_id841,None,None
+l_856,n_id841,n_id842,None,None
+l_857,n_id842,n_id843,None,None
+l_858,n_id843,n_id844,None,None
+l_859,n_id844,n_id845,None,None
+l_860,n_id845,n_id846,None,None
+l_861,n_id846,n_id847,None,None
+l_862,n_id847,n_id848,None,None
+l_863,n_id848,n_id849,None,None
+l_864,n_id849,n_id850,None,None
+l_865,n_id850,n_id851,None,None
+l_866,n_id851,n_id852,None,None
+l_867,n_id852,n_id853,None,None
+l_868,n_id853,n_id854,None,None
+l_869,n_id854,n_id855,None,None
+l_870,n_id855,n_id856,None,None
+l_871,n_id856,n_id857,None,None
+l_872,n_id857,n_id858,None,None
+l_873,n_id858,n_id859,None,None
+l_874,n_id859,n_id860,None,None
+l_875,n_id860,n_id861,None,None
+l_876,n_id862,n_id863,None,None
+l_877,n_id863,n_id864,None,None
+l_878,n_id865,n_id866,None,None
+l_879,n_id866,n_id867,None,None
+l_880,n_id86,n_id868,None,None
+l_881,n_id868,n_id869,None,None
+l_882,n_id81,n_id870,None,None
+l_883,n_id870,n_id871,None,None
+l_884,n_id310,n_id872,None,None
+l_885,n_id872,n_id873,None,None
+l_886,n_id873,n_id874,None,None
+l_887,n_id872,n_id875,None,None
+l_888,n_id657,n_id525,30 mph,None
+l_889,n_id525,n_id876,30 mph,None
+l_890,n_id876,n_id877,30 mph,None
+l_891,n_id877,n_id499,30 mph,None
+l_892,n_id499,n_id878,30 mph,None
+l_893,n_id878,n_id879,30 mph,None
+l_894,n_id879,n_id880,30 mph,None
+l_895,n_id880,n_id438,30 mph,None
+l_896,n_id438,n_id881,30 mph,None
+l_897,n_id881,n_id882,30 mph,None
+l_898,n_id882,n_id883,30 mph,None
+l_899,n_id883,n_id884,30 mph,None
+l_900,n_id884,n_id885,30 mph,None
+l_901,n_id642,n_id886,None,None
+l_902,n_id886,n_id887,None,None
+l_903,n_id887,n_id888,None,None
+l_904,n_id888,n_id709,None,None
+l_905,n_id129,n_id863,None,None
+l_906,n_id863,n_id866,None,None
+l_907,n_id889,n_id785,30 mph,None
+l_907_1,n_id889,n_id891,30 mph,None
+l_908,n_id885,n_id890,30 mph,None
+l_909,n_id890,n_id891,30 mph,None
+l_910,n_id553,n_id892,None,None
+l_911,n_id838,n_id893,None,None
+l_912,n_id893,n_id557,None,None
+l_913,n_id753,n_id894,None,None
+l_914,n_id894,n_id721,None,None
+l_915,n_id776,n_id895,None,None
+l_916,n_id767,n_id896,None,None
+l_917,n_id53,n_id897,20 mph,None
+l_918,n_id897,n_id898,20 mph,None
+l_919,n_id898,n_id899,20 mph,None
+l_920,n_id899,n_id900,20 mph,None
+l_921,n_id900,n_id901,20 mph,None
+l_922,n_id901,n_id74,20 mph,None
+l_923,n_id342,n_id902,20 mph,None
+l_924,n_id902,n_id903,20 mph,None
+l_925,n_id903,n_id904,20 mph,None
+l_926,n_id904,n_id407,20 mph,None
+l_927,n_id905,n_id700,None,None
+l_928,n_id906,n_id777,None,None
+l_929,n_id907,n_id701,None,None
+l_930,n_id908,n_id689,None,None
+l_931,n_id878,n_id909,None,None
+l_932,n_id452,n_id910,None,None
+l_933,n_id910,n_id911,None,None
+l_934,n_id911,n_id912,None,None
+l_935,n_id912,n_id913,None,None
+l_936,n_id913,n_id914,None,None
+l_937,n_id914,n_id915,None,None
+l_938,n_id915,n_id916,None,None
+l_939,n_id916,n_id917,None,None
+l_940,n_id482,n_id918,None,None
+l_941,n_id919,n_id920,None,None
+l_942,n_id920,n_id918,None,None
+l_943,n_id918,n_id921,None,None
+l_944,n_id561,n_id922,None,None
+l_945,n_id922,n_id923,None,None
+l_946,n_id923,n_id924,None,None
+l_947,n_id924,n_id925,None,None
+l_948,n_id925,n_id926,None,None
+l_949,n_id926,n_id927,None,None
+l_950,n_id927,n_id928,None,None
+l_951,n_id928,n_id929,None,None
+l_952,n_id929,n_id930,None,None
+l_953,n_id930,n_id931,None,None
+l_954,n_id931,n_id932,None,None
+l_955,n_id932,n_id933,None,None
+l_956,n_id933,n_id934,None,None
+l_957,n_id934,n_id935,None,None
+l_958,n_id935,n_id936,None,None
+l_959,n_id936,n_id937,None,None
+l_960,n_id937,n_id938,None,None
+l_961,n_id938,n_id562,None,None
+l_962,n_id560,n_id939,None,None
+l_963,n_id939,n_id940,None,None
+l_964,n_id940,n_id941,None,None
+l_965,n_id939,n_id942,None,None
+l_966,n_id446,n_id943,None,None
+l_967,n_id943,n_id944,None,None
+l_968,n_id944,n_id945,None,None
+l_969,n_id550,n_id946,None,None
+l_970,n_id946,n_id947,None,None
+l_971,n_id488,n_id948,None,None
+l_972,n_id485,n_id949,None,None
+l_973,n_id950,n_id951,None,None
+l_974,n_id951,n_id952,None,None
+l_975,n_id952,n_id953,None,None
+l_976,n_id953,n_id546,None,None
+l_977,n_id327,n_id954,None,None
+l_978,n_id330,n_id955,None,None
+l_979,n_id320,n_id956,None,None
+l_980,n_id957,n_id958,None,None
+l_981,n_id958,n_id959,None,None
+l_982,n_id959,n_id960,None,None
+l_983,n_id960,n_id961,None,None
+l_984,n_id961,n_id347,None,None
+l_985,n_id962,n_id963,None,None
+l_986,n_id963,n_id964,None,None
+l_987,n_id964,n_id965,None,None
+l_988,n_id356,n_id966,None,None
+l_989,n_id966,n_id967,None,None
+l_990,n_id967,n_id968,None,None
+l_991,n_id969,n_id968,None,None
+l_992,n_id968,n_id970,None,None
+l_993,n_id517,n_id971,None,None
+l_994,n_id971,n_id972,None,None
+l_995,n_id972,n_id973,None,None
+l_996,n_id973,n_id974,None,None
+l_997,n_id974,n_id975,None,None
+l_998,n_id975,n_id976,None,None
+l_999,n_id976,n_id977,None,None
+l_1000,n_id977,n_id978,None,None
+l_1001,n_id978,n_id979,None,None
+l_1002,n_id979,n_id980,None,None
+l_1003,n_id980,n_id981,None,None
+l_1004,n_id981,n_id982,None,None
+l_1005,n_id770,n_id983,None,None
+l_1006,n_id983,n_id984,None,None
+l_1007,n_id984,n_id985,None,None
+l_1008,n_id985,n_id986,None,None
+l_1009,n_id986,n_id987,None,None
+l_1010,n_id987,n_id988,None,None
+l_1011,n_id988,n_id989,None,None
+l_1012,n_id989,n_id990,None,None
+l_1013,n_id990,n_id991,None,None
+l_1014,n_id991,n_id992,None,None
+l_1015,n_id992,n_id993,None,None
+l_1016,n_id498,n_id994,None,None
+l_1017,n_id404,n_id995,None,None
+l_1018,n_id995,n_id996,None,None
+l_1019,n_id996,n_id997,None,None
+l_1020,n_id997,n_id998,None,None
+l_1021,n_id998,n_id999,None,None
+l_1022,n_id999,n_id1000,None,None
+l_1023,n_id1000,n_id1001,None,None
+l_1024,n_id1001,n_id1002,None,None
+l_1025,n_id1002,n_id1003,None,None
+l_1026,n_id1003,n_id1004,None,None
+l_1027,n_id1004,n_id1005,None,None
+l_1028,n_id1005,n_id1006,None,None
+l_1029,n_id1006,n_id1007,None,None
+l_1030,n_id1007,n_id1008,None,None
+l_1031,n_id377,n_id1009,None,None
+l_1032,n_id367,n_id1010,None,None
+l_1033,n_id1010,n_id1011,None,None
+l_1034,n_id1011,n_id1012,None,None
+l_1035,n_id1012,n_id1013,None,None
+l_1036,n_id363,n_id1014,None,None
+l_1037,n_id1014,n_id1015,None,None
+l_1038,n_id1015,n_id1016,None,None
+l_1039,n_id1016,n_id1017,None,None
+l_1040,n_id1017,n_id1018,None,None
+l_1041,n_id1018,n_id1019,None,None
+l_1042,n_id364,n_id1020,None,None
+l_1043,n_id1020,n_id1021,None,None
+l_1044,n_id1021,n_id1022,None,None
+l_1045,n_id1022,n_id1023,None,None
+l_1046,n_id1023,n_id1024,None,None
+l_1047,n_id1024,n_id1025,None,None
+l_1048,n_id1025,n_id365,None,None
+l_1049,n_id1026,n_id1027,None,None
+l_1050,n_id265,n_id1028,None,None
+l_1051,n_id1028,n_id1029,None,None
+l_1052,n_id1029,n_id1030,None,None
+l_1053,n_id1030,n_id1031,None,None
+l_1054,n_id1031,n_id1032,None,None
+l_1055,n_id1032,n_id1033,None,None
+l_1056,n_id1033,n_id1034,None,None
+l_1057,n_id1034,n_id1035,None,None
+l_1058,n_id1035,n_id1036,None,None
+l_1059,n_id1036,n_id1037,None,None
+l_1060,n_id1037,n_id1038,None,None
+l_1061,n_id1038,n_id1039,None,None
+l_1062,n_id1039,n_id267,None,None
+l_1063,n_id1034,n_id1040,None,None
+l_1064,n_id211,n_id1041,None,None
+l_1065,n_id1041,n_id1042,None,None
+l_1066,n_id1042,n_id1043,None,None
+l_1067,n_id1043,n_id1044,None,None
+l_1068,n_id1044,n_id1045,None,None
+l_1069,n_id1045,n_id1046,None,None
+l_1070,n_id1046,n_id1047,None,None
+l_1071,n_id643,n_id1048,None,None
+l_1072,n_id1048,n_id1049,None,None
+l_1073,n_id1049,n_id1050,None,None
+l_1074,n_id1050,n_id1051,None,None
+l_1075,n_id1051,n_id1052,None,None
+l_1076,n_id1052,n_id1053,None,None
+l_1077,n_id1053,n_id1054,None,None
+l_1078,n_id1055,n_id194,None,None
+l_1079,n_id194,n_id1056,None,None
+l_1080,n_id1056,n_id1057,None,None
+l_1081,n_id1057,n_id1058,None,None
+l_1082,n_id1058,n_id1059,None,None
+l_1083,n_id1059,n_id1027,None,None
+l_1084,n_id1027,n_id1060,None,None
+l_1085,n_id1060,n_id1061,None,None
+l_1086,n_id1061,n_id1062,None,None
+l_1087,n_id1062,n_id1063,None,None
+l_1088,n_id1063,n_id1064,None,None
+l_1089,n_id1064,n_id117,None,None
+l_1090,n_id117,n_id1065,None,None
+l_1091,n_id1065,n_id1066,None,None
+l_1092,n_id1066,n_id1067,None,None
+l_1093,n_id1067,n_id1068,None,None
+l_1094,n_id1068,n_id1069,None,None
+l_1095,n_id1069,n_id631,None,None
+l_1096,n_id1070,n_id1071,None,None
+l_1097,n_id1071,n_id116,None,None
+l_1098,n_id1071,n_id1063,None,None
+l_1099,n_id128,n_id1072,None,None
+l_1100,n_id1072,n_id1073,None,None
+l_1101,n_id1073,n_id1074,None,None
+l_1102,n_id1075,n_id1076,None,None
+l_1103,n_id1077,n_id1078,None,None
+l_1104,n_id1079,n_id642,20 mph,None
+l_1105,n_id642,n_id1080,20 mph,None
+l_1106,n_id882,n_id1081,None,None
+l_1107,n_id883,n_id1082,None,None
+l_1108,n_id503,n_id1083,None,None
+l_1109,n_id1083,n_id1084,None,None
+l_1110,n_id1084,n_id1085,None,None
+l_1111,n_id1085,n_id1086,None,None
+l_1112,n_id1086,n_id1087,None,None
+l_1113,n_id1087,n_id1088,None,None
+l_1114,n_id1088,n_id1089,None,None
+l_1115,n_id1089,n_id1090,None,None
+l_1116,n_id504,n_id1091,None,None
+l_1117,n_id1091,n_id1092,None,None
+l_1118,n_id1092,n_id1093,None,None
+l_1119,n_id1093,n_id1094,None,None
+l_1120,n_id1094,n_id1095,None,None
+l_1121,n_id507,n_id1096,None,None
+l_1122,n_id1096,n_id1097,None,None
+l_1123,n_id512,n_id1098,None,None
+l_1124,n_id1098,n_id1099,None,None
+l_1125,n_id1099,n_id1100,None,None
+l_1126,n_id1100,n_id1101,None,None
+l_1127,n_id1101,n_id1102,None,None
+l_1128,n_id1102,n_id1103,None,None
+l_1129,n_id1103,n_id1104,None,None
+l_1130,n_id1104,n_id1105,None,None
+l_1131,n_id1105,n_id1106,None,None
+l_1132,n_id1106,n_id1107,None,None
+l_1133,n_id509,n_id1108,None,None
+l_1134,n_id513,n_id1109,None,None
+l_1135,n_id1109,n_id1110,None,None
+l_1136,n_id516,n_id1111,None,None
+l_1137,n_id1111,n_id1112,None,None
+l_1138,n_id1112,n_id1113,None,None
+l_1139,n_id1112,n_id1114,None,None
+l_1140,n_id1114,n_id1115,None,None
+l_1141,n_id521,n_id1116,None,None
+l_1142,n_id1116,n_id1117,None,None
+l_1143,n_id1117,n_id1118,None,None
+l_1144,n_id1117,n_id1119,None,None
+l_1145,n_id971,n_id1120,None,None
+l_1146,n_id1120,n_id1121,None,None
+l_1147,n_id1121,n_id1122,None,None
+l_1148,n_id1122,n_id1123,None,None
+l_1149,n_id1123,n_id1124,None,None
+l_1150,n_id1124,n_id1125,None,None
+l_1151,n_id1125,n_id1126,None,None
+l_1152,n_id1126,n_id1127,None,None
+l_1153,n_id1127,n_id1128,None,None
+l_1154,n_id1128,n_id1129,None,None
+l_1155,n_id1129,n_id1130,None,None
+l_1156,n_id1130,n_id1131,None,None
+l_1157,n_id1131,n_id1132,None,None
+l_1158,n_id1132,n_id1133,None,None
+l_1159,n_id1133,n_id1134,None,None
+l_1160,n_id1134,n_id511,None,None
+l_1161,n_id1133,n_id1135,None,None
+l_1162,n_id1135,n_id1136,None,None
+l_1163,n_id1136,n_id1120,None,None
+l_1164,n_id514,n_id1137,None,None
+l_1165,n_id1137,n_id1135,None,None
+l_1166,n_id510,n_id1138,None,None
+l_1167,n_id1138,n_id1139,None,None
+l_1168,n_id1139,n_id1140,None,None
+l_1169,n_id1140,n_id1141,None,None
+l_1170,n_id505,n_id1142,None,None
+l_1171,n_id1142,n_id1143,None,None
+l_1172,n_id1143,n_id1144,None,None
+l_1173,n_id1144,n_id1145,None,None
+l_1174,n_id1145,n_id1146,None,None
+l_1175,n_id1146,n_id1147,None,None
+l_1176,n_id1147,n_id1148,None,None
+l_1177,n_id1148,n_id1149,None,None
+l_1178,n_id1149,n_id508,None,None
+l_1179,n_id501,n_id1150,None,None
+l_1180,n_id1151,n_id1152,None,None
+l_1181,n_id1152,n_id1153,None,None
+l_1182,n_id1153,n_id1154,None,None
+l_1183,n_id1154,n_id1155,None,None
+l_1184,n_id1155,n_id1156,None,None
+l_1185,n_id1156,n_id1157,None,None
+l_1186,n_id1157,n_id1150,None,None
+l_1187,n_id1150,n_id1158,None,None
+l_1188,n_id1159,n_id342,None,None
+l_1189,n_id276,n_id1160,None,None
+l_1190,n_id1160,n_id1161,None,None
+l_1191,n_id1161,n_id1162,None,None
+l_1192,n_id1162,n_id1163,None,None
+l_1193,n_id1163,n_id1164,None,None
+l_1194,n_id1164,n_id1165,None,None
+l_1195,n_id1165,n_id1166,None,None
+l_1196,n_id904,n_id1167,None,None
+l_1197,n_id1167,n_id1168,None,None
+l_1198,n_id1168,n_id1169,None,None
+l_1199,n_id1169,n_id1170,None,None
+l_1200,n_id1170,n_id1171,None,None
+l_1201,n_id349,n_id1172,None,None
+l_1202,n_id1172,n_id1173,None,None
+l_1203,n_id1173,n_id1174,None,None
+l_1204,n_id1174,n_id1175,None,None
+l_1205,n_id307,n_id1176,None,None
+l_1206,n_id1177,n_id1178,None,None
+l_1207,n_id1178,n_id1179,None,None
+l_1208,n_id1179,n_id1159,None,None
+l_1209,n_id384,n_id1180,None,None
+l_1210,n_id1180,n_id1181,None,None
+l_1211,n_id1181,n_id1182,None,None
+l_1212,n_id1182,n_id1183,None,None
+l_1213,n_id1183,n_id1184,None,None
+l_1214,n_id1184,n_id1185,None,None
+l_1215,n_id1186,n_id1187,None,None
+l_1216,n_id1187,n_id1188,None,None
+l_1217,n_id1188,n_id1189,None,None
+l_1218,n_id1189,n_id370,None,None
+l_1219,n_id747,n_id1190,None,None
+l_1220,n_id1190,n_id1191,None,None
+l_1221,n_id1191,n_id748,None,None
+l_1222,n_id741,n_id1192,None,None
+l_1223,n_id1192,n_id1193,None,None
+l_1224,n_id1193,n_id744,None,None
+l_1225,n_id735,n_id1194,None,None
+l_1226,n_id732,n_id1195,None,None
+l_1227,n_id1196,n_id885,30 mph,None
+l_1228,n_id1197,n_id785,30 mph,None
+l_1229,n_id591,n_id1198,20 mph,None
+l_1230,n_id1198,n_id1199,20 mph,None
+l_1231,n_id1199,n_id1200,20 mph,None
+l_1232,n_id1200,n_id1201,20 mph,None
+l_1233,n_id1201,n_id1202,20 mph,None
+l_1234,n_id1202,n_id1203,20 mph,None
+l_1235,n_id1203,n_id708,20 mph,None
+l_1236,n_id59,n_id1204,20 mph,None
+l_1237,n_id1204,n_id1205,20 mph,None
+l_1238,n_id1205,n_id1206,20 mph,None
+l_1239,n_id1206,n_id1207,20 mph,None
+l_1240,n_id1207,n_id1055,20 mph,None
+l_1241,n_id663,n_id1208,20 mph,None
+l_1242,n_id1208,n_id1209,20 mph,None
+l_1243,n_id1209,n_id1210,20 mph,None
+l_1244,n_id1210,n_id42,20 mph,None
+l_1245,n_id43,n_id1211,None,None
+l_1246,n_id44,n_id1212,None,None
+l_1247,n_id46,n_id1213,None,None
+l_1248,n_id656,n_id193,20 mph,None
+l_1249,n_id1189,n_id1214,None,None
+l_1250,n_id1214,n_id1215,None,None
+l_1251,n_id750,n_id1075,30 mph,None
+l_1252,n_id1075,n_id1077,30 mph,None
+l_1253,n_id1077,n_id763,30 mph,None
+l_1254,n_id785,n_id1216,30 mph,None
+l_1255,n_id374,n_id1217,None,None
+l_1256,n_id1217,n_id1218,None,None
+l_1257,n_id1218,n_id1219,None,None
+l_1258,n_id354,n_id1220,None,None
+l_1259,n_id1220,n_id962,None,None
+l_1260,n_id177,n_id1221,30 mph,None
+l_1261,n_id1221,n_id1222,30 mph,None
+l_1262,n_id268,n_id1223,20 mph,None
+l_1263,n_id58,n_id1224,None,None
+l_1264,n_id1224,n_id1207,None,None
+l_1265,n_id714,n_id151,30 mph,None
+l_1266,n_id151,n_id684,30 mph,None
+l_1267,n_id1059,n_id1225,20 mph,None
+l_1268,n_id1225,n_id1074,20 mph,None
+l_1269,n_id1074,n_id1226,20 mph,None
+l_1270,n_id1226,n_id1227,20 mph,None
+l_1271,n_id1227,n_id137,20 mph,None
