@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATraM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        a { text-decoration: none; }
+        code { background: #f0f0f0; padding: 2px 6px; }
+    </style>
+</head>
+<body>
+    <h1>MATraM</h1>
+    <p>Your content here.</p>
+    <a href="#">Link</a>
+    <code>console.log("Hello");</code>
+</body>
+</html>
