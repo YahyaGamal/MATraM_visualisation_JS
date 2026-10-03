@@ -41,7 +41,7 @@
     </style>
   </head>
   <body>
-    <h1>Node Visualization 02</h1>
+    <h1>Node Visualization</h1>
 
     <div class="container">
       <canvas id="nodeCanvas" width="600" height="600"></canvas>
@@ -77,9 +77,11 @@ function init() {
       desiredHeight: Math.round(rect.height),
       nodeFile: "../data/static/node_list.csv",
       edgeFile: "../data/static/link_list.csv",
- <span class="highlight">     carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact",</span> // Just the header of the file without step number
+ <span class="highlight">     carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact",</span> 
+ // Just the header of the file without step number
     },
-    [offscreen],                   // Transfer array for offscreen canvas
+    [offscreen],                   
+    // Transfer array for offscreen canvas
   );
 }
 
@@ -232,14 +234,14 @@ async function init(e) {
   
     bufferCanvas = new OffscreenCanvas(bufWidth, bufHeight);
     bufferCtx = bufferCanvas.getContext("2d");
-    <span class="highlight">nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);
+<span class="highlight">    nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);
     nodeCtx = nodeCanvas.getContext("2d");  // Fixed: was bufferCanvas</span>
     ctx = canvas.getContext("2d");
 
     await loadNodes(e);
     
     await loadEdges(e);
-    <span class="highlight">await loadCars(e,<span class="highlight">0)</span>
+    <span class="highlight">await loadCars(e,0)</span>
     
     drawNetwork(nodeCtx);
     
@@ -271,8 +273,7 @@ export class Node {
 <span class="highlight">
   link(edge){
     this.linkedTo.push(edge);
-  }
-  </span>
+  }</span>
 }
         </code>
     </pre>
