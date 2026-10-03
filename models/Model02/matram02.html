@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node Visualization 02</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      canvas {
+        display: block;
+        margin: 10px 0;
+      }
+      a {
+        text-decoration: none;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 12px;
+        overflow-x: auto;
+        border-radius: 4px;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, monospace;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Node Visualization 02</h1>
+
+    <div class="container">
+      <canvas id="nodeCanvas" width="600" height="600"></canvas>
+    </div>
+
+    <h2>Code</h2>
+    <p>
+      Note all code is old skool JS not modern JS. And in
+      <a href="https://nostarch.com/hemingway">Hemingway style</a>
+    </p>
+
+    <h3>JS in webpage</h3>
+    <p> Now draws the cars. Draws the road network just onces to a buffer</p>
+    <pre>
+        <code>
+var worker = null;
+
+function init() {
+  const canvas = document.getElementById("nodeCanvas");
+  // Transfer control to offscreen canvas for worker rendering
+  const offscreen = canvas.transferControlToOffscreen();
+  
+  // Get canvas dimensions for initial size
+  const rect = canvas.getBoundingClientRect();
+  
+  // Create worker as ES module
+  worker = new Worker("../js/worker.js", { type: "module" });
+
+  worker.postMessage(
+    {
+      type: "init",
+      canvas: offscreen,           // Transfer the offscreen canvas
+      desiredWidth: Math.round(rect.width),
+      desiredHeight: Math.round(rect.height),
+      nodeFile: "../data/static/node_list.csv",
+      edgeFile: "../data/static/link_list.csv",
+      carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact", // Just the header of the file without step number
+    },
+    [offscreen],                   // Transfer array for offscreen canvas
+  );
+}
+
+/ Pass function reference (no parentheses) to wait for DOM ready
+document.addEventListener("DOMContentLoaded", init);
+        </code>
+    </pre>
+
+    <h3>Worker.js</h3>
+    <pre>
+        <code>
+console.log("worker V02")
+import { Node } from "./node.js";
+import { Edge } from "./edge.js";
+import { Car } from "./car.js";
+
+// Global state for worker
+var canvas = null;
+var nodeCanvas = null;
+var bufferCanvas = null;
+var ctx = null;
+var bufferCtx = null;
+var nodeCtx = null;
+var scaleX = 0.0;
+var scaleY = 0.0;
+var scale = 0;
+var nodes = {};
+var edges = {};
+var cars = {};
+var H = 0;
+var W = 0;
+
+// Load node data from CSV and calculate bounding box for scaling
+async function loadNodes(e) {
+    const response = await fetch(e.data.nodeFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1); // Skip header row
+
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+
+    for (let line of lines) {
+        var parts = line.split(",");
+        var id = parts[0];
+        var x = parseFloat(parts[1]);
+        var y = parseFloat(parts[2]);
+        var stopPoint = parseFloat(parts[3]);
+
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+        nodes[id] = new Node(id, x, y, stopPoint);
+    }
+
+    H = e.data.desiredHeight;
+    W = e.data.desiredWidth;
+    scaleX = W / (maxX - minX);
+    scaleY = H / (maxY - minY);
+    scale = Math.min(scaleX, scaleY); // Preserve aspect ratio
+}
+
+// Load edge data and link to existing nodes
+async function loadEdges(e) {
+    const response = await fetch(e.data.edgeFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1); // Skip header row
+
+    for (let line of lines) {
+        var parts = line.split(",");
+        var id = parts[0];
+        var start = parts[1];
+        var end = parts[2];
+        var speed = parts[3];
+        var juntion = parts[4]; // Note: typo - should be "junction"
+        edges[id] = new Edge(id, nodes[start], nodes[end], speed, juntion);
+        nodes[start].link(edges[id]);
+        nodes[end].link(edges[id]);
+    }
+}
+
+// Load car positions for timestep from CSV
+async function loadCars(e, step) {
+    const carFile = e.data.carFile + step + ".csv";
+    console.log(carFile);
+    const response = await fetch(carFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1);
+
+    for (let line of lines) {
+        var parts = line.split(",");
+        var id = parts[2];           // Column index may vary
+        var x = parseFloat(parts[3]);
+        var y = parseFloat(parts[4]);
+        if (id in cars) {
+            cars[id].x = x;
+            cars[id].y = y;
+        } else {
+            cars[id] = new Car(id, x, y);
+        }
+    }
+}
+
+// Draw static network (nodes + edges) to provided context
+function drawNetwork(ctx) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "black";
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 1;
+
+    for (var key in nodes) {
+        const node = nodes[key];
+        ctx.beginPath();
+        ctx.arc(node.x * scale, H - node.y * scale, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    for (var key in edges) {
+        const edge = edges[key];
+        ctx.beginPath();
+        ctx.moveTo(edge.start.x * scale, H - edge.start.y * scale);
+        ctx.lineTo(edge.end.x * scale, H - edge.end.y * scale);
+        ctx.stroke();
+    }
+}
+
+// Compose final frame: network → buffer → cars → display
+function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
+    bufferCtx.drawImage(nodeCanvas, 0, 0);  // Copy static network
+    drawCar(bufferCtx);                     // Draw cars on buffer
+    ctx.drawImage(bufferCanvas, 0, 0);      // Composite to main canvas
+}
+
+// Draw cars to provided context
+function drawCar(ctx) {
+    console.log("drawCar");
+    ctx.fillStyle = "#d00";
+    for (var key in cars) {
+        console.log("C")
+        const car = cars[key];
+        ctx.beginPath();
+        ctx.arc(car.x * scale, H - car.y * scale, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Setup worker environment and trigger data loading
+async function init(e) {
+    canvas = e.data.canvas;
+    const bufWidth = canvas.width || e.data.desiredWidth;
+    const bufHeight = canvas.height || e.data.desiredHeight;
+
+    bufferCanvas = new OffscreenCanvas(bufWidth, bufHeight);
+    bufferCtx = bufferCanvas.getContext("2d");
+    nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);
+    nodeCtx = nodeCanvas.getContext("2d");  // Fixed: was bufferCanvas
+    ctx = canvas.getContext("2d");
+
+    await loadNodes(e);
+    await loadEdges(e);
+    await loadCars(e, 0);
+
+    drawNetwork(nodeCtx);  // Static network cached once
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+}
+
+// Handle incoming messages from main thread
+onmessage = function (e) {
+    switch (e.data.type) {
+        case "init":
+            init(e);
+            break;
+    }
+};
+        </code>
+    </pre>
+
+    <h3>node.js</h3>
+    <pre>
+        <code>
+export class Node {
+  constructor(id, x, y, stopPoint) {
+    this.id = id;
+    this.x = x;
+    this.y = y;
+    this.stopPoint = stopPoint;
+  }
+}
+        </code>
+    </pre>
+
+    <h3>edge.js</h3>
+    <pre>
+        <code>
+export class Edge {
+  constructor(id, start, end, speed,juntion) {
+    this.id = id;
+    this.start = start;
+    this.end = end;
+    this.speed = speed;
+    this.juntion =juntion; 
+  }
+}
+        </code>
+    </pre>
+
+    <h3>car.js</h3>
+    <pre>
+        <code>
+export class Car {
+  constructor(id, x, y) {
+    this.id = id;
+    this.x = x;
+    this.y = y;
+  }
+}
+        </code>
+    </pre>
+
+    <script type="module">
+      var worker = null;
+      function init() {
+        const canvas = document.getElementById("nodeCanvas");
+        const offscreen = canvas.transferControlToOffscreen();
+        const rect = canvas.getBoundingClientRect();
+        worker = new Worker("./js/worker.js", { type: "module" });
+        worker.onerror = function (error) {
+          console.error("Worker error:", error);
+          console.error("Message:", error.message);
+          console.error("Filename:", error.filename);
+          console.error("Line:", error.lineno);
+        };
+        worker.postMessage(
+          {
+            type: "init",
+            canvas: offscreen,
+            desiredWidth: Math.round(rect.width),
+            desiredHeight: Math.round(rect.height),
+            nodeFile: "../../../data/static/node_list.csv",
+            edgeFile: "../../../data/static/link_list.csv",
+            carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact",
+          },
+          [offscreen],
+        );
+      }
+      document.addEventListener("DOMContentLoaded", init);
+    </script>
+  </body>
+</html>

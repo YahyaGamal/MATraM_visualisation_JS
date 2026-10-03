@@ -18,25 +18,36 @@
       a {
         text-decoration: none;
       }
-    pre {
-      background: #f4f4f4;
-      padding: 12px;
-      overflow-x: auto;
-      border-radius: 4px;
-    }
+      pre {
+        background: #f4f4f4;
+        padding: 12px;
+        overflow-x: auto;
+        border-radius: 4px;
+      }
 
-    code {
-      font-family: ui-monospace, SFMono-Regular, monospace;
-    }
+      code {
+        font-family: ui-monospace, SFMono-Regular, monospace;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
     <h1>Node Visualization</h1>
-
-    <canvas id="nodeCanvas" width="600" height="600"></canvas>
+    
+    <div class="container">
+      <canvas id="nodeCanvas" width="600" height="600"></canvas>
+    </div>
     
     <h2>Code</h2>
-    <p>Note all code is old skool JS not modern JS. And in <a href="https://nostarch.com/hemingway">Hemingway style</a></p>
+    <p>
+      Note all code is old skool JS not modern JS. And in
+      <a href="https://nostarch.com/hemingway">Hemingway style</a>
+    </p>
 
     <h3>JS in webpage</h3>
     <pre>
@@ -180,7 +191,6 @@ onmessage = function (e) {
         </code>
     </pre>
 
-
     <h3>node.js</h3>
     <pre>
         <code>
@@ -194,7 +204,6 @@ export class Node {
 }
         </code>
     </pre>
-
 
     <h3>edge.js</h3>
     <pre>
@@ -211,14 +220,13 @@ export class Edge {
         </code>
     </pre>
 
-
     <script type="module">
       var worker = null;
       function init() {
         const canvas = document.getElementById("nodeCanvas");
         const offscreen = canvas.transferControlToOffscreen();
         const rect = canvas.getBoundingClientRect();
-        worker = new Worker("../js/worker.js", { type: "module" });
+        worker = new Worker("./js/worker.js", { type: "module" });
 
         worker.postMessage(
           {
@@ -226,8 +234,8 @@ export class Edge {
             canvas: offscreen,
             desiredWidth: Math.round(rect.width),
             desiredHeight: Math.round(rect.height),
-            nodeFile: "../data/static/node_list.csv",
-            edgeFile: "../data/static/link_list.csv",
+            nodeFile: "../../../data/static/node_list.csv",
+            edgeFile: "../../../data/static/link_list.csv",
           },
           [offscreen],
         );
