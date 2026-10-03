@@ -116,11 +116,11 @@ function firstDraw(nodeCanvas, bufferCanvas, bufferCtx, ctx){
     ctx.drawImage(bufferCanvas, 0, 0);  
 }
 
-function draw() {
+function draw(i) {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(nodeCanvas, 0, 0);
     drawCar(ctx);
-    console.log("draw")
+    console.log("*",i)
 }
 function drawCar(ct) {
     ct.fillStyle = "red";
@@ -146,23 +146,24 @@ async function init(e) {
     await loadCars(e, 0)
 
     drawNetwork(nodeCtx);
-    draw();
+    draw(0);
 }
 
 async function start(e) {
     console.log("Loading")
-    for(let step = 8726; step<12000;step++){
-        console.log(stepCount);
+    for(let step = 8726; step<15000;step++){
+        await loadCars(e,step);
+        console.log(step);
     }
     console.log("moving",stepCount)
     for(var i=0; i<stepCount;i++){
         for(var j=0;j<steps[i].length;j++){
             var car=steps[i][j];
-            cars[car[0]].y = car[1];
+            cars[car[0]].x = car[1];
             cars[car[0]].y = car[2];
         }
-        draw();
-        console.log(i)
+        await new Promise(r => setTimeout(r, 50));
+        draw(i);
     }
 }
 
