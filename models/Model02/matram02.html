@@ -254,6 +254,7 @@ onmessage = function (e) {
     </pre>
 
     <h3>node.js</h3>
+    <p> Note links now added to nodes so we have an actual network if necessary</p>
     <pre>
         <code>
 export class Node {
@@ -262,6 +263,11 @@ export class Node {
     this.x = x;
     this.y = y;
     this.stopPoint = stopPoint;
+    this.linkedTo= [];
+  }
+
+  link(edge){
+    this.linkedTo.push(edge);
   }
 }
         </code>
