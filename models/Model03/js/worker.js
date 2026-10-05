@@ -3,23 +3,53 @@ import { Node } from "./node.js";
 import { Edge } from "./edge.js";
 import { Car } from "./car.js";
 
+// ========================
+// CONFIGURATION CONSTANTS
+// ========================
+var ANIMATION_DELAY_MS = 5;
+var NODE_RADIUS = 1.3;
+var CAR_RADIUS = 2.0;
+var NODE_COLOR = "black";
+var EDGE_COLOR = "#999";
+var CAR_COLOR = "#d00";
 
+// ========================
+// GLOBAL STATE GROUPED
+// ========================
 
+// Canvas contexts
 var canvas = null;
-var nodeCanvas = null
+var nodeCanvas = null;
+var bufferCanvas = null;
 var ctx = null;
+var bufferCtx = null;
 var nodeCtx = null;
+
+// Scaling
 var scaleX = 0.0;
 var scaleY = 0.0;
 var scale = 0;
-const nodes = {};
-const edges = {};
+
+// Network data
+var nodes = {};
+var edges = {};
+
+// Animation state
 var cars = {};
+var allSteps = {};  // stepNumber -> array of {id, x, y}
+var stepList = [];
+var stepCount = 0;
+var currentStepIndex = 0;
+var running = false;
+var animationFrame = null;
+
+// Viewport
 var H = 0;
 var W = 0;
-const steps =[];
-var stepCount=0;
 
+// ========================
+// LOADERS
+// ========================
 
 async function loadNodes(e) {
     const response = await fetch(e.data.nodeFile);
@@ -27,7 +57,6 @@ async function loadNodes(e) {
     const lines = text.trim().split("\n").slice(1);
 
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-
 
     for (let line of lines) {
         var parts = line.split(",");
@@ -42,14 +71,13 @@ async function loadNodes(e) {
         maxY = Math.max(maxY, y);
         nodes[id] = new Node(id, x, y, stopPoint);
     }
+
     H = e.data.desiredHeight;
-    W = e.data.desiredWidth
+    W = e.data.desiredWidth;
     scaleX = W / (maxX - minX);
     scaleY = H / (maxY - minY);
     scale = Math.min(scaleX, scaleY);
-
 }
-
 
 async function loadEdges(e) {
     const response = await fetch(e.data.edgeFile);
@@ -69,112 +97,215 @@ async function loadEdges(e) {
     }
 }
 
-async function loadCars(e, step) {
-    steps.push([]);
-    const carFile = e.data.carFile + step + ".csv"
-    const response = await fetch(carFile);
-    const text = await response.text();
-    const lines = text.trim().split("\n").slice(1);
+async function loadAllCars(e) {
+    console.log("Loading all car data...");
 
-    for (let line of lines) {
-        var parts = line.split(",");
+    var response = await fetch(e.data.carsFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = parts[1];
         var id = parts[2];
         var x = parseFloat(parts[3]);
         var y = parseFloat(parts[4]);
-        if (!(id in cars)) {
-            cars[id] = new Car(id, x, y);
+
+        // Build step index
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+            stepList.push(step);
         }
 
-        steps[stepCount].push([id, x, y])
+        allSteps[step].push({
+            id: id,
+            x: x,
+            y: y
+        });
+
+        // Register each car once
+        if (!(id in cars)) {
+            cars[id] = new Car(id, x, y);
+            cars[id].x = x;
+            cars[id].y = y;
+        }
     }
-    stepCount++;
+
+    stepCount = stepList.length;
+    console.log("Loaded " + stepCount + " steps");
+    currentStepIndex = 0;
 }
 
+// ========================
+// RENDERING
+// ========================
 
-function drawNetwork(ct) {
-    ct.clearRect(0, 0, W, H);
-    ct.fillStyle = "black";
-    ct.strokeStyle = "#999";
-    ct.lineWidth = 1;
-    for (var key in nodes) {
-        const node = nodes[key];
-        ct.beginPath();
-        ct.arc(node.x * scale, H - node.y * scale, 1.3, 0, Math.PI * 2);
-        ct.fill();
-    }
+function drawNetwork(ctx) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = NODE_COLOR;
+    ctx.strokeStyle = EDGE_COLOR;
+    ctx.lineWidth = 1;
+
+    // for (var key in nodes) {
+    //     const node = nodes[key];
+    //     ctx.beginPath();
+    //     ctx.arc(node.x * scale, H - node.y * scale, NODE_RADIUS, 0, Math.PI * 2);
+    //     ctx.fill();
+    // }
+
     for (var key in edges) {
         const edge = edges[key];
-        ct.beginPath();
-        ct.moveTo(edge.start.x * scale, H - edge.start.y * scale);
-        ct.lineTo(edge.end.x * scale, H - edge.end.y * scale);
-        ct.stroke();
+        ctx.beginPath();
+        ctx.moveTo(edge.start.x * scale, H - edge.start.y * scale);
+        ctx.lineTo(edge.end.x * scale, H - edge.end.y * scale);
+        ctx.stroke();
     }
 }
 
-function firstDraw(nodeCanvas, bufferCanvas, bufferCtx, ctx){
-    bufferCtx.drawImage(nodeCanvas, 0, 0);
-    ctx.drawImage(bufferCanvas, 0, 0);  
-}
-
-function draw(i) {
-    ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(nodeCanvas, 0, 0);
-    drawCar(ctx);
-    console.log("*",i)
-}
-function drawCar(ct) {
-    ct.fillStyle = "red";
+function drawCar(ctx) {
+    ctx.fillStyle = CAR_COLOR;
     for (var key in cars) {
         const car = cars[key];
-        ct.beginPath();
-        ct.arc(car.x * scale, H - car.y * scale, 3.0, 0, Math.PI * 2);
-        ct.fill();
+        ctx.beginPath();
+        ctx.arc(car.x * scale, H - car.y * scale, CAR_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
-async function init(e) {
+function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
+    ctx.clearRect(0, 0, W, H);
+    bufferCtx.clearRect(0, 0, W, H);
+    bufferCtx.drawImage(nodeCanvas, 0, 0);
+    drawCar(bufferCtx);
+    ctx.drawImage(bufferCanvas, 0, 0);
+}
+
+// ========================
+// ANIMATION CONTROLS
+// ========================
+
+// Bounds-checked position update
+function updatePositions(stepIndex) {
+    if (stepIndex >= stepCount) return;
+
+    var step = stepList[stepIndex];
+    var stepData = allSteps[step];
+
+    for (var i = 0; i < stepData.length; i++) {
+        var carData = stepData[i];
+        var id = carData.id;
+        var x = carData.x;
+        var y = carData.y;
+
+        if (id in cars) {
+            cars[id].x = x;
+            cars[id].y = y;
+        }
+    }
+}
+
+// Centralised render call
+function renderCurrentStep() {
+    updatePositions(currentStepIndex);
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+}
+
+function animate() {
+    if (!running) return;
+
+    renderCurrentStep();
+    currentStepIndex++;
+
+    if (currentStepIndex < stepCount) {
+        setTimeout(function () {
+            animationFrame = requestAnimationFrame(animate);
+        }, ANIMATION_DELAY_MS);
+    } else {
+        console.log("Animation complete at step " + stepCount);
+        running = false;
+    }
+}
+
+function play() {
+    running = true;
+    animate();
+}
+
+function stop() {
+    running = false;
+    if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
+}
+
+// ========================
+// INITIALIZATION
+// ========================
+
+async function setup(e) {
     canvas = e.data.canvas;
     const bufWidth = canvas.width || e.data.desiredWidth;
     const bufHeight = canvas.height || e.data.desiredHeight;
 
+    bufferCanvas = new OffscreenCanvas(bufWidth, bufHeight);
+    bufferCtx = bufferCanvas.getContext("2d");
     nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);
     nodeCtx = nodeCanvas.getContext("2d");
     ctx = canvas.getContext("2d");
 
     await loadNodes(e);
     await loadEdges(e);
-    await loadCars(e, 0)
+    await loadAllCars(e);
 
+    // Draw first frame
     drawNetwork(nodeCtx);
-    draw(0);
+    updatePositions(0);
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+
+    // Start animation
+    currentStepIndex = 0;
+
 }
 
-async function start(e) {
-    console.log("Loading")
-    for(let step = 8726; step<15000;step++){
-        await loadCars(e,step);
-        console.log(step);
-    }
-    console.log("moving",stepCount)
-    for(var i=0; i<stepCount;i++){
-        for(var j=0;j<steps[i].length;j++){
-            var car=steps[i][j];
-            cars[car[0]].x = car[1];
-            cars[car[0]].y = car[2];
-        }
-        await new Promise(r => setTimeout(r, 50));
-        draw(i);
-    }
+// ========================
+// MESSAGE HANDLERS
+// ========================
+
+function handleInit(e) {
+    setup(e);
 }
 
+function handlePlay(e) {
+    play();
+}
+
+function handleStop(e) {
+    stop();
+}
+
+function handleSeek(e) {
+    var targetIndex = parseInt(e.data.step);
+    if (targetIndex >= 0 && targetIndex < stepCount) {
+        currentStepIndex = targetIndex;
+        renderCurrentStep();
+    }
+}
 
 onmessage = function (e) {
     switch (e.data.type) {
         case "init":
-            init(e);
+            handleInit(e);
             break;
-        case "start":
-            start(e);
+        case "play":
+            handlePlay(e);
+            break;
+        case "stop":
+            handleStop(e);
+            break;
+        case "seek":
+            handleSeek(e);
             break;
     }
-}
+};

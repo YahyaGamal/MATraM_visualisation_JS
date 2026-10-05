@@ -17,8 +17,11 @@ var scale = 0;
 var nodes = {};
 var edges ={};
 var cars ={};
+var allSteps = {};  // stepNumber -> array of {id, x, y}
+var stepList = []; 
 var H = 0;
 var W = 0;
+var currentStepIndex =0;
 
 
 async function loadNodes(e) {
@@ -69,25 +72,45 @@ async function loadEdges(e) {
     }
 }
 
-async function loadCars(e,step) {
-    const carFile = e.data.carFile+step+".csv"
-    console.log(carFile);
-    const response = await fetch(carFile);
-    const text = await response.text();
-    const lines = text.trim().split("\n").slice(1);
 
-    for (let line of lines) {
-        var parts = line.split(",");
+async function loadAllCars(e) {
+    console.log("Loading all car data...");
+    
+    var response = await fetch(e.data.carsFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+    
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = parts[1];
         var id = parts[2];
         var x = parseFloat(parts[3]);
         var y = parseFloat(parts[4]);
-        if(id in cars){
+        
+        // Build step index
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+            stepList.push(step);
+        }
+        
+        allSteps[step].push({
+            id: id,
+            x: x,
+            y: y
+        });
+        
+        if(!(id in cars)){
+            cars[id]= new Car(id,x,y);
             cars[id].x = x;
             cars[id].y = y;
-        }else{
-            cars[id]= new Car(id,x,y);
         }
-    }  
+
+    }
+    
+    stepCount = stepList.length;
+    console.log("Loaded " + stepCount + " steps");
+    currentStepIndex = 0;
 }
 
 
@@ -116,6 +139,18 @@ function draw(nodeCanvas,bufferCanvas,bufferCtx,ctx){
     drawCar(bufferCtx);
     ctx.drawImage(bufferCanvas, 0, 0);    
 }
+
+function updatePositions(stepIndex){
+    const step = stepList[stepIndex]
+    for (i in step){
+        const id= id;
+        const x= x;
+        const y= y;
+        cars[id].x = x;
+        cars[id].y = y;
+    }
+}
+
 function drawCar(ctx){
     console.log("drawCar");
     ctx.fillStyle = "#d00";
@@ -148,8 +183,23 @@ async function init(e) {
     drawNetwork(nodeCtx);
     
     draw(nodeCanvas,bufferCanvas,bufferCtx,ctx);
+    currentStepIndex = 0;
+    running = true;
+    animate();
 }
 
+function animate() {
+    if (!running) return;
+    
+    updatePositions(currentStepIndex)
+    currentStepIndex++;
+    draw(nodeCanvas,bufferCanvas,bufferCtx,ctx);
+    if (currentStepIndex < stepCount) {
+        animationFrame = setTimeout(function() {
+            requestAnimationFrame(animate);
+        }, 50);  // Adjustable delay
+    }
+}
 
 onmessage = function (e) {
     switch (e.data.type) {

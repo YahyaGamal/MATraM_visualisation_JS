@@ -13,83 +13,77 @@
       <canvas id="nodeCanvas" width="600" height="600"></canvas>
     </div>
 
-    <button onclick="start()">Start</button>
+    <button onclick="play()">Start</button>
 
     <h2>Code</h2>
     <p>
-      <p> <span class="highlight">New or changed code</span></p>
+      The worker module has been totally refactored it is still in old skool Hemingway
     </p>
 
     <h3>JS in webpage</h3>
-    <p>Now draws the cars. Draws the road network just onces to a buffer</p>
+    <p>Loads in all car movements. </p>
     <pre>
         <code>
-var worker = null;
-
-function init() {
-  const canvas = document.getElementById("nodeCanvas");
-  // Transfer control to offscreen canvas for worker rendering
-  const offscreen = canvas.transferControlToOffscreen();
-  
-  // Get canvas dimensions for initial size
-  const rect = canvas.getBoundingClientRect();
-  
-  // Create worker as ES module
-  worker = new Worker("../js/worker.js", { type: "module" });
-
-  worker.postMessage(
-    {
-      type: "init",
-      canvas: offscreen,           // Transfer the offscreen canvas
-      desiredWidth: Math.round(rect.width),
-      desiredHeight: Math.round(rect.height),
-      nodeFile: "../data/static/node_list.csv",
-      edgeFile: "../data/static/link_list.csv",
- <span class="highlight">     carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact",</span> 
- // Just the header of the file without step number
-    },
-    [offscreen],                   
-    // Transfer array for offscreen canvas
-  );
-}
-
-/ Pass function reference (no parentheses) to wait for DOM ready
-document.addEventListener("DOMContentLoaded", init);
-        </code>
-    </pre>
-
-    <h3>Worker.js</h3>
-    <pre>
-        <code>
-console.log("worker V02")
+vconsole.log("worker V02")
 import { Node } from "./node.js";
 import { Edge } from "./edge.js";
-<span class="highlight">import { Car } from ""./car.js"</span>";
+import { Car } from "./car.js";
 
-// Global state for worker
+// ========================
+// CONFIGURATION CONSTANTS
+// ========================
+var ANIMATION_DELAY_MS = 5;
+var NODE_RADIUS = 1.3;
+var CAR_RADIUS = 2.0;
+var NODE_COLOR = "black";
+var EDGE_COLOR = "#999";
+var CAR_COLOR = "#d00";
+
+// ========================
+// GLOBAL STATE GROUPED
+// ========================
+
+// Canvas contexts
 var canvas = null;
-var nodeCanvas = null
-var bufferCanvas = null
+var nodeCanvas = null;
+var bufferCanvas = null;
 var ctx = null;
 var bufferCtx = null;
 var nodeCtx = null;
+
+// Scaling
 var scaleX = 0.0;
 var scaleY = 0.0;
 var scale = 0;
+
+// Network data
 var nodes = {};
-var edges ={};
-<span class="highlight">var cars ={};</span>
+var edges = {};
+
+// Animation state
+var cars = {};
+var allSteps = {};  // stepNumber -> array of {id, x, y}
+var stepList = [];
+var stepCount = 0;
+var currentStepIndex = 0;
+var running = false;
+var animationFrame = null;
+
+// Viewport
 var H = 0;
 var W = 0;
 
-// Load node data from CSV and calculate bounding box for scaling
+// ========================
+// LOADERS
+// ========================
+
 async function loadNodes(e) {
     const response = await fetch(e.data.nodeFile);
     const text = await response.text();
-    const lines = text.trim().split("\n").slice(1); // Skip header row
+    const lines = text.trim().split("\n").slice(1);
 
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    
+
     for (let line of lines) {
         var parts = line.split(",");
         var id = parts[0];
@@ -103,19 +97,18 @@ async function loadNodes(e) {
         maxY = Math.max(maxY, y);
         nodes[id] = new Node(id, x, y, stopPoint);
     }
+
     H = e.data.desiredHeight;
-    W = e.data.desiredWidth
+    W = e.data.desiredWidth;
     scaleX = W / (maxX - minX);
     scaleY = H / (maxY - minY);
-    scale = Math.min(scaleX, scaleY); // Preserve aspect ratio
-
+    scale = Math.min(scaleX, scaleY);
 }
 
-// Load edge data and link to existing nodes
 async function loadEdges(e) {
     const response = await fetch(e.data.edgeFile);
     const text = await response.text();
-    const lines = text.trim().split("\n").slice(1); // Skip header row
+    const lines = text.trim().split("\n").slice(1);
 
     for (let line of lines) {
         var parts = line.split(",");
@@ -123,107 +116,226 @@ async function loadEdges(e) {
         var start = parts[1];
         var end = parts[2];
         var speed = parts[3];
-        var juntion = parts[4]; // Note: typo - should be "junction"
-        edges[id] = new Edge(id, nodes[start], nodes[end], speed,juntion);
+        var juntion = parts[4];
+        edges[id] = new Edge(id, nodes[start], nodes[end], speed, juntion);
         nodes[start].link(edges[id]);
         nodes[end].link(edges[id]);
     }
 }
 
-// Load car positions for timestep from CSV
-<span class="highlight">async function loadCars(e,step) {
-    const carFile = e.data.carFile+step+".csv"
-    console.log(carFile);
-    const response = await fetch(carFile);
-    const text = await response.text();
-    const lines = text.trim().split("\n").slice(1);
+async function loadAllCars(e) {
+    console.log("Loading all car data...");
 
-    for (let line of lines) {
-        var parts = line.split(",");
+    var response = await fetch(e.data.carsFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = parts[1];
         var id = parts[2];
         var x = parseFloat(parts[3]);
         var y = parseFloat(parts[4]);
-        if(id in cars){
+
+        // Build step index
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+            stepList.push(step);
+        }
+
+        allSteps[step].push({
+            id: id,
+            x: x,
+            y: y
+        });
+
+        // Register each car once
+        if (!(id in cars)) {
+            cars[id] = new Car(id, x, y);
             cars[id].x = x;
             cars[id].y = y;
-        }else{
-            cars[id]= new Car(id,x,y);
         }
-    }   
-}</span>
+    }
 
-// Draw static network (nodes + edges) to provided context
+    stepCount = stepList.length;
+    console.log("Loaded " + stepCount + " steps");
+    currentStepIndex = 0;
+}
+
+// ========================
+// RENDERING
+// ========================
+
 function drawNetwork(ctx) {
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = "black";
-    ctx.strokeStyle = "#999";
+    ctx.fillStyle = NODE_COLOR;
+    ctx.strokeStyle = EDGE_COLOR;
     ctx.lineWidth = 1;
-    for (var key in nodes) {
-        const node = nodes[key];
-        ctx.beginPath();
-        ctx.arc(node.x * scale, H - node.y * scale, 1.3, 0, Math.PI * 2);
-        ctx.fill();
-    }
+
+    // for (var key in nodes) {
+    //     const node = nodes[key];
+    //     ctx.beginPath();
+    //     ctx.arc(node.x * scale, H - node.y * scale, NODE_RADIUS, 0, Math.PI * 2);
+    //     ctx.fill();
+    // }
+
     for (var key in edges) {
         const edge = edges[key];
         ctx.beginPath();
         ctx.moveTo(edge.start.x * scale, H - edge.start.y * scale);
-        ctx.lineTo(edge.end.x * scale , H - edge.end.y * scale);
+        ctx.lineTo(edge.end.x * scale, H - edge.end.y * scale);
         ctx.stroke();
     }
 }
 
-// Compose final frame: network → buffer → cars → display
-<span class="highlight">function draw(nodeCanvas,bufferCanvas,bufferCtx,ctx){
-    bufferCtx.drawImage(nodeCanvas, 0, 0);
-    drawCar(bufferCtx);
-    ctx.drawImage(bufferCanvas, 0, 0);    
-}</span>
-
-// Draw cars to provided context
-<span class="highlight">function drawCar(ctx){
-    console.log("drawCar");
-    ctx.fillStyle = "#d00";
+function drawCar(ctx) {
+    ctx.fillStyle = CAR_COLOR;
     for (var key in cars) {
-        console.log("C")
         const car = cars[key];
         ctx.beginPath();
-        ctx.arc(car.x * scale, H - car.y * scale, 1.3, 0, Math.PI * 2);
+        ctx.arc(car.x * scale, H - car.y * scale, CAR_RADIUS, 0, Math.PI * 2);
         ctx.fill();
     }
-}</span>
+}
 
-// Setup worker environment and trigger data loading
-async function init(e) {
+function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
+    ctx.clearRect(0, 0, W, H);
+    bufferCtx.clearRect(0, 0, W, H);
+    bufferCtx.drawImage(nodeCanvas, 0, 0);
+    drawCar(bufferCtx);
+    ctx.drawImage(bufferCanvas, 0, 0);
+}
 
+// ========================
+// ANIMATION CONTROLS
+// ========================
+
+// Bounds-checked position update
+function updatePositions(stepIndex) {
+    if (stepIndex >= stepCount) return;
+
+    var step = stepList[stepIndex];
+    var stepData = allSteps[step];
+
+    for (var i = 0; i < stepData.length; i++) {
+        var carData = stepData[i];
+        var id = carData.id;
+        var x = carData.x;
+        var y = carData.y;
+
+        if (id in cars) {
+            cars[id].x = x;
+            cars[id].y = y;
+        }
+    }
+}
+
+// Centralised render call
+function renderCurrentStep() {
+    updatePositions(currentStepIndex);
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+}
+
+function animate() {
+    if (!running) return;
+
+    renderCurrentStep();
+    currentStepIndex++;
+
+    if (currentStepIndex < stepCount) {
+        setTimeout(function () {
+            animationFrame = requestAnimationFrame(animate);
+        }, ANIMATION_DELAY_MS);
+    } else {
+        console.log("Animation complete at step " + stepCount);
+        running = false;
+    }
+}
+
+function play() {
+    running = true;
+    animate();
+}
+
+function stop() {
+    running = false;
+    if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
+}
+
+// ========================
+// INITIALIZATION
+// ========================
+
+async function setup(e) {
     canvas = e.data.canvas;
     const bufWidth = canvas.width || e.data.desiredWidth;
     const bufHeight = canvas.height || e.data.desiredHeight;
-  
+
     bufferCanvas = new OffscreenCanvas(bufWidth, bufHeight);
     bufferCtx = bufferCanvas.getContext("2d");
-<span class="highlight">    nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);
-    nodeCtx = nodeCanvas.getContext("2d");  // Fixed: was bufferCanvas</span>
+    nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);
+    nodeCtx = nodeCanvas.getContext("2d");
     ctx = canvas.getContext("2d");
 
     await loadNodes(e);
-    
     await loadEdges(e);
-    <span class="highlight">await loadCars(e,0)</span>
-    
+    await loadAllCars(e);
+
+    // Draw first frame
     drawNetwork(nodeCtx);
-    
-    draw(nodeCanvas,bufferCanvas,bufferCtx,ctx);
+    updatePositions(0);
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+
+    // Start animation
+    currentStepIndex = 0;
+    running = true;
+    animate();
 }
 
-// Handle incoming messages from main thread
+// ========================
+// MESSAGE HANDLERS
+// ========================
+
+function handleInit(e) {
+    setup(e);
+}
+
+function handlePlay(e) {
+    play();
+}
+
+function handleStop(e) {
+    stop();
+}
+
+function handleSeek(e) {
+    var targetIndex = parseInt(e.data.step);
+    if (targetIndex >= 0 && targetIndex < stepCount) {
+        currentStepIndex = targetIndex;
+        renderCurrentStep();
+    }
+} 
+
 onmessage = function (e) {
     switch (e.data.type) {
         case "init":
-            init(e);
+            handleInit(e);
+            break;
+        case "play":
+            handlePlay(e);
+            break;
+        case "stop":
+            handleStop(e);
+            break;
+        case "seek":
+            handleSeek(e);
             break;
     }
-}
+};
         </code>
     </pre>
     
@@ -236,12 +348,12 @@ export class Node {
     this.x = x;
     this.y = y;
     this.stopPoint = stopPoint;
- <span class="highlight">    this.linkedTo= [];</span>
+    this.linkedTo= [];
   }
-<span class="highlight">
+
   link(edge){
     this.linkedTo.push(edge);
-  }</span>
+  }
 }
         </code>
     </pre>
@@ -264,7 +376,7 @@ export class Edge {
     <h3>car.js</h3>
     <pre>
         <code>
-          <span class="highlight">
+          
 export class Car {
   constructor(id, x, y) {
     this.id = id;
@@ -272,7 +384,7 @@ export class Car {
     this.y = y;
   }
 }
-</span>
+
         </code>
     </pre>
 
@@ -280,10 +392,9 @@ export class Car {
       var worker = null;
       var step = 8726;
 
-      window.start = function start(){
+      window.play = function play(){
         worker.postMessage({
-          type:"start",
-          carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact",
+          type:"play",
         })
 
       }
@@ -307,7 +418,7 @@ export class Car {
             desiredHeight: Math.round(rect.height),
             nodeFile: "../../../data/static/node_list.csv",
             edgeFile: "../../../data/static/link_list.csv",
-            carFile: "../../../data/dynamic/cars_by_step/cars_xy_compact",
+            carsFile: "../../../data/dynamic/cars_xy_compact.csv",
           },
           [offscreen],
         );
