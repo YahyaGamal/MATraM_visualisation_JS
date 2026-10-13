@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Car Movement</h1>
+    <h1>Car Movement *</h1>
 
     <div class="container">
         <canvas id="nodeCanvas" width="600" height="600"></canvas>
@@ -324,7 +324,7 @@ function handleSeek(e) {
     }
 } 
 
-onmessage = function (e) {
+onmessage =function(e) {
     switch (e.data.type) {
         case "init":
             handleInit(e);

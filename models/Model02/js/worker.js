@@ -22,6 +22,7 @@ var stepList = [];
 var H = 0;
 var W = 0;
 var currentStepIndex =0;
+var running;
 
 
 async function loadNodes(e) {
@@ -178,28 +179,15 @@ async function init(e) {
     await loadNodes(e);
     
     await loadEdges(e);
-    await loadCars(e,0)
+    //await loadCars(e,0)
     
     drawNetwork(nodeCtx);
     
     draw(nodeCanvas,bufferCanvas,bufferCtx,ctx);
     currentStepIndex = 0;
-    running = true;
-    animate();
+
 }
 
-function animate() {
-    if (!running) return;
-    
-    updatePositions(currentStepIndex)
-    currentStepIndex++;
-    draw(nodeCanvas,bufferCanvas,bufferCtx,ctx);
-    if (currentStepIndex < stepCount) {
-        animationFrame = setTimeout(function() {
-            requestAnimationFrame(animate);
-        }, 50);  // Adjustable delay
-    }
-}
 
 onmessage = function (e) {
     switch (e.data.type) {

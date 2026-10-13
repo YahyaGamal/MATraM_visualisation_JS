@@ -1,7 +1,8 @@
-console.log("worker V02")
+console.log("worker V03")
 import { Node } from "./node.js";
 import { Edge } from "./edge.js";
 import { Car } from "./car.js";
+
 
 // ========================
 // CONFIGURATION CONSTANTS
@@ -12,6 +13,8 @@ var CAR_RADIUS = 2.0;
 var NODE_COLOR = "black";
 var EDGE_COLOR = "#999";
 var CAR_COLOR = "#d00";
+var BUILDING_COLOR = "#dd0";
+var HOUSE_COLOR = "#00d";
 
 // ========================
 // GLOBAL STATE GROUPED
@@ -77,6 +80,19 @@ async function loadNodes(e) {
     scaleX = W / (maxX - minX);
     scaleY = H / (maxY - minY);
     scale = Math.min(scaleX, scaleY);
+}
+
+async function loadBuildings(e) {
+    const response = await fetch(e.data.buildingFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1);
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var id = parts[0];
+        var x = parseFloat(parts[1]);
+        var y = parseFloat(parts[2]);
+    }
+    
 }
 
 async function loadEdges(e) {
