@@ -147,13 +147,6 @@ function drawNetwork(ctx) {
     ctx.strokeStyle = EDGE_COLOR;
     ctx.lineWidth = 1;
 
-    // for (var key in nodes) {
-    //     const node = nodes[key];
-    //     ctx.beginPath();
-    //     ctx.arc(node.x * scale, H - node.y * scale, NODE_RADIUS, 0, Math.PI * 2);
-    //     ctx.fill();
-    // }
-
     for (var key in edges) {
         const edge = edges[key];
         ctx.beginPath();
@@ -208,6 +201,10 @@ function updatePositions(stepIndex) {
 // Centralised render call
 function renderCurrentStep() {
     updatePositions(currentStepIndex);
+    self.postMessage({
+        type: "step",
+        step: currentStepIndex,
+    },)
     draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
 }
 

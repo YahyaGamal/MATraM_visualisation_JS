@@ -33,6 +33,7 @@
 
       .container {
         display: flex;
+        flex-direction: column;  /* Add this */
         justify-content: center;
         align-items: center;
       }

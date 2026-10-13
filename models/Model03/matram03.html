@@ -1,23 +1,27 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Visualization</title>
     <link rel="stylesheet" href="../../css/main.css">
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>Car Movement</h1>
 
     <div class="container">
-      <canvas id="nodeCanvas" width="600" height="600"></canvas>
+        <canvas id="nodeCanvas" width="600" height="600"></canvas>
+        <div id="step">Step:</div>
     </div>
 
     <button onclick="play()">Start</button>
+    
 
     <h2>Code</h2>
     <p>
-      The worker module has been totally refactored it is still in old skool Hemingway
+        The worker module has been totally refactored it is still in old skool Hemingway
     </p>
 
     <h3>JS in webpage</h3>
@@ -338,7 +342,7 @@ onmessage = function (e) {
 };
         </code>
     </pre>
-    
+
     <h3>node.js</h3>
     <pre>
         <code>
@@ -389,42 +393,59 @@ export class Car {
     </pre>
 
     <script type="module">
-      var worker = null;
-      var step = 8726;
+        var worker = null;
+        var step = 8726;
+        var stepLable = null;
 
-      window.play = function play(){
-        worker.postMessage({
-          type:"play",
-        })
+        window.play = function play() {
+            worker.postMessage({
+                type: "play",
+            })
 
-      }
+        }
 
-      function init() {
-        const canvas = document.getElementById("nodeCanvas");
-        const offscreen = canvas.transferControlToOffscreen();
-        const rect = canvas.getBoundingClientRect();
-        worker = new Worker("./js/worker.js", { type: "module" });
-        worker.onerror = function (error) {
-          console.error("Worker error:", error);
-          console.error("Message:", error.message);
-          console.error("Filename:", error.filename);
-          console.error("Line:", error.lineno);
-        };
-        worker.postMessage(
-          {
-            type: "init",
-            canvas: offscreen,
-            desiredWidth: Math.round(rect.width),
-            desiredHeight: Math.round(rect.height),
-            nodeFile: "../../../data/static/node_list.csv",
-            edgeFile: "../../../data/static/link_list.csv",
-            carsFile: "../../../data/dynamic/cars_xy_compact.csv",
-          },
-          [offscreen],
-        );
+        function showStep(step) {
+            stepLable.innerHTML= `Step: ${step}`;
+        }
 
-      }
-      document.addEventListener("DOMContentLoaded", init);
+
+
+        function init() {
+            const canvas = document.getElementById("nodeCanvas");
+            stepLable = document.getElementById("step");
+            const offscreen = canvas.transferControlToOffscreen();
+            const rect = canvas.getBoundingClientRect();
+            worker = new Worker("./js/worker.js", { type: "module" });
+            worker.onerror = function (error) {
+                console.error("Worker error:", error);
+                console.error("Message:", error.message);
+                console.error("Filename:", error.filename);
+                console.error("Line:", error.lineno);
+            };
+            worker.postMessage(
+                {
+                    type: "init",
+                    canvas: offscreen,
+                    desiredWidth: Math.round(rect.width),
+                    desiredHeight: Math.round(rect.height),
+                    nodeFile: "../../../data/static/node_list.csv",
+                    edgeFile: "../../../data/static/link_list.csv",
+                    carsFile: "../../../data/dynamic/cars_xy_compact.csv",
+                },
+                [offscreen],
+            );
+
+            worker.onmessage = function (e) {
+                switch (e.data.type) {
+                    case "step":
+                        showStep(e.data.step);
+                        break;
+                }
+            }
+
+        }
+        document.addEventListener("DOMContentLoaded", init);
     </script>
-  </body>
+</body>
+
 </html>
