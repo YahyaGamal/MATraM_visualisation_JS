@@ -22,7 +22,7 @@
     
     <h2>Code</h2>
     <p>
-        The worker module has been totally refactored it is still in old skool Hemingway
+        Final demo version code.
     </p>
 
     <h3>JS in webpage</h3>
@@ -33,7 +33,6 @@
 // MODULE-LEVEL STATE
 // ========================
 var worker = null;      // handle to the dedicated worker
-var step = 8726;        // NOTE: declared but unused — dead code
 var stepLable = null;   // DOM element that displays "Step: N" (typo: "Lable")
 
 
@@ -605,7 +604,6 @@ onmessage = function (e) {
     </pre>   
     <script type="module">
         var worker = null;
-        var step = 8726;
         var stepLable = null;
 
         window.play = function play() {
