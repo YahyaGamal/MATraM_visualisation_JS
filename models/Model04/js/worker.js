@@ -7,7 +7,7 @@ import { Building } from "./building.js";
 import { Pedestrians } from "./pedestrians.js";
 
 
-var DEMO_START_STEP = 4000; // start here so the demo shows activity immediately
+var DEMO_START_STEP = 0; // start here so the demo shows activity immediately
 
 
 
