@@ -3,6 +3,8 @@ import { Node } from "./node.js";
 import { Edge } from "./edge.js";
 import { Car } from "./car.js";
 import { Building } from "./building.js";
+import { Pedestrians} from "./pedestrians.js";
+
 
 // ========================
 // CONFIGURATION CONSTANTS
@@ -10,9 +12,11 @@ import { Building } from "./building.js";
 var ANIMATION_DELAY_MS = 5;
 var NODE_RADIUS = 1.3;
 var CAR_RADIUS = 2.0;
+var PEDESTRIANS_RADIUS = 2;
 var NODE_COLOR = "black";
 var EDGE_COLOR = "#999";
 var CAR_COLOR = "#d00";
+var PEDESTRIANS_COLOR = "#0d0";
 var BUILDING_COLOR = "#FF8C00";
 var HOUSE_COLOR = "#00d";
 var BUILDING_SIZE = 3.0;
@@ -41,12 +45,13 @@ var buildings = {};
 
 // Animation state
 var cars = {};
-var allSteps = {};  // stepNumber -> array of {id, x, y}
-var stepList = [];
-var stepCount = 0;
-var currentStepIndex = 0;
+var pedestrians = {};
+var allSteps = {};  
+var minStep = Number.MAX_VALUE;
+var maxStep = 0;
 var running = false;
 var animationFrame = null;
+var currentStepIndex = 0;
 
 // Viewport
 var H = 0;
@@ -151,18 +156,25 @@ async function loadAllCars(e) {
     for (var i = 0; i < lines.length; i++) {
         var parts = lines[i].split(',');
         var row = parts[0];
-        var step = parts[1];
+        var step = Number(parts[1]);
         var id = parts[2];
         var x = parseFloat(parts[3]);
         var y = parseFloat(parts[4]);
 
+        if(step<minStep){
+            minStep=step;
+        }
+        if(step>maxStep){
+            maxStep = step;
+        }
+
         // Build step index
         if (!allSteps[step]) {
             allSteps[step] = [];
-            stepList.push(step);
         }
 
         allSteps[step].push({
+            type : 'car',
             id: id,
             x: x,
             y: y
@@ -175,10 +187,52 @@ async function loadAllCars(e) {
             cars[id].y = y;
         }
     }
+    console.log("cars",Object.keys(cars).length,Object.keys(cars)[9]);
+}
 
-    stepCount = stepList.length;
-    console.log("Loaded " + stepCount + " steps");
-    currentStepIndex = 0;
+
+async function loadAllPedestrians(e) {
+    console.log("Loading all pedestrians data...");
+
+    var response = await fetch(e.data.pedestrianFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = Number(parts[1]);
+        var id = parts[2];
+        var x = parseFloat(parts[3]);
+        var y = parseFloat(parts[4]);
+
+        if(step<minStep){
+            minStep=step;
+        }
+        if(step>maxStep){
+            maxStep = step;
+        }
+
+        // Build step index
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+        }
+
+        allSteps[step].push({
+            type: 'pedestrian',
+            id: id,
+            x: x,
+            y: y
+        });
+
+        // Register each car once
+        if (!(id in pedestrians)) {
+            pedestrians[id] = new Pedestrians(id, x, y);
+            pedestrians[id].x = x;
+            pedestrians[id].y = y;
+        }
+    }
+    console.log("pedestrians",Object.keys(pedestrians).length,Object.keys(pedestrians)[9]);
 }
 
 // ========================
@@ -229,11 +283,23 @@ function drawCar(ctx) {
     }
 }
 
+function drawPedestrians(ctx) {
+    ctx.fillStyle = PEDESTRIANS_COLOR;
+    for (var key in pedestrians) {
+        const car = pedestrians[key];
+        ctx.beginPath();
+        ctx.arc(car.x * scale, H - car.y * scale, PEDESTRIANS_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+
 function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
     ctx.clearRect(0, 0, W, H);
     bufferCtx.clearRect(0, 0, W, H);
     bufferCtx.drawImage(nodeCanvas, 0, 0);
     drawCar(bufferCtx);
+    drawPedestrians(bufferCtx);
     ctx.drawImage(bufferCanvas, 0, 0);
 }
 
@@ -242,21 +308,26 @@ function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
 // ========================
 
 // Bounds-checked position update
-function updatePositions(stepIndex) {
-    if (stepIndex >= stepCount) return;
-
-    var step = stepList[stepIndex];
+function updatePositions(step) {
+    if (!(step in allSteps)) return;
     var stepData = allSteps[step];
-
     for (var i = 0; i < stepData.length; i++) {
-        var carData = stepData[i];
-        var id = carData.id;
-        var x = carData.x;
-        var y = carData.y;
 
-        if (id in cars) {
-            cars[id].x = x;
-            cars[id].y = y;
+        var data = stepData[i];
+        var id = data.id;
+        var x = data.x;
+        var y = data.y;
+        if(data.type == 'car'){
+            if (id in cars) {
+                cars[id].x = x;
+                cars[id].y = y;
+            }
+        }
+        if(data.type == 'pedestrian'){
+            if (id in pedestrians) {
+                pedestrians[id].x = x;
+                pedestrians[id].y = y;
+            }
         }
     }
 }
@@ -277,12 +348,12 @@ function animate() {
     renderCurrentStep();
     currentStepIndex++;
 
-    if (currentStepIndex < stepCount) {
+    if (currentStepIndex < maxStep) {
         setTimeout(function () {
             animationFrame = requestAnimationFrame(animate);
         }, ANIMATION_DELAY_MS);
     } else {
-        console.log("Animation complete at step " + stepCount);
+        console.log("Animation complete at step " + currentStepIndex);
         running = false;
     }
 }
@@ -318,6 +389,7 @@ async function setup(e) {
     await loadNodes(e);
     await loadEdges(e);
     await loadAllCars(e);
+    await loadAllPedestrians(e);
     await loadBuildings(e);
     await loadHouses(e);
 
@@ -327,8 +399,7 @@ async function setup(e) {
     draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
 
     // Start animation
-    currentStepIndex = 0;
-
+    currentStepIndex = 4000;
 }
 
 // ========================
