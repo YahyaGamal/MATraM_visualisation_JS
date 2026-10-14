@@ -2,6 +2,7 @@ console.log("worker V04")
 import { Node } from "./node.js";
 import { Edge } from "./edge.js";
 import { Car } from "./car.js";
+import { Bus } from "./bus.js";
 import { Building } from "./building.js";
 import { Pedestrians } from "./pedestrians.js";
 
@@ -16,10 +17,12 @@ var DEMO_START_STEP = 4000; // start here so the demo shows activity immediately
 var ANIMATION_DELAY_MS = 5;
 var NODE_RADIUS = 1.3;
 var CAR_RADIUS = 2.0;
+var BUS_RADIUS = 2.0;
 var PEDESTRIANS_RADIUS = 2;
 var NODE_COLOR = "black";
 var EDGE_COLOR = "#999";
 var CAR_COLOR = "#d00";
+var BUS_COLOR = "#00d";
 var PEDESTRIANS_COLOR = "#0d0";
 var BUILDING_COLOR = "#FF8C00";
 var HOUSE_COLOR = "#00d";
@@ -49,6 +52,7 @@ var buildings = {};
 
 // Animation state
 var cars = {};
+var buses = {};
 var pedestrians = {};
 var allSteps = {};
 var minStep = Number.MAX_VALUE;
@@ -149,6 +153,51 @@ async function loadEdges(e) {
         nodes[end].link(edges[id]);
     }
 }
+
+async function loadAllBuses(e) {
+    console.log("Loading all Bus data...");
+
+    var response = await fetch(e.data.busesFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = Number(parts[1]);
+        var id = parts[2];
+        var x = parseFloat(parts[3]);
+        var y = parseFloat(parts[4]);
+
+        if (step < minStep) {
+            minStep = step;
+        }
+        if (step > maxStep) {
+            maxStep = step;
+        }
+
+        // Build step index
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+        }
+
+        allSteps[step].push({
+            type: 'bus',
+            id: id,
+            x: x,
+            y: y
+        });
+
+        // Register each car once
+        if (!(id in buses)) {
+            buses[id] = new Bus(id, x, y);
+            buses[id].x = x;
+            buses[id].y = y;
+        }
+    }
+    console.log("Busses", Object.keys(cars).length, Object.keys(cars)[9]);
+}
+
 
 async function loadAllCars(e) {
     console.log("Loading all car data...");
@@ -285,12 +334,22 @@ function drawCar(ctx) {
     }
 }
 
+function drawBus(ctx) {
+    ctx.fillStyle = BUS_COLOR;
+    for (var key in buses) {
+        const bus = buses[key];
+        ctx.beginPath();
+        ctx.arc(bus.x * scale, H - bus.y * scale, BUS_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
 function drawPedestrians(ctx) {
     ctx.fillStyle = PEDESTRIANS_COLOR;
     for (var key in pedestrians) {
-        const car = pedestrians[key];
+        const person = pedestrians[key];
         ctx.beginPath();
-        ctx.arc(car.x * scale, H - car.y * scale, PEDESTRIANS_RADIUS, 0, Math.PI * 2);
+        ctx.arc(person.x * scale, H - person.y * scale, PEDESTRIANS_RADIUS, 0, Math.PI * 2);
         ctx.fill();
     }
 }
@@ -301,6 +360,7 @@ function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
     bufferCtx.clearRect(0, 0, W, H);
     bufferCtx.drawImage(nodeCanvas, 0, 0);
     drawCar(bufferCtx);
+    drawBus(bufferCtx);
     drawPedestrians(bufferCtx);
     ctx.drawImage(bufferCanvas, 0, 0);
 }
@@ -329,6 +389,12 @@ function updatePositions(step) {
             if (id in pedestrians) {
                 pedestrians[id].x = x;
                 pedestrians[id].y = y;
+            }
+        }
+        if (data.type == 'bus') {
+            if (id in buses) {
+                buses[id].x = x;
+                buses[id].y = y;
             }
         }
     }
@@ -391,6 +457,7 @@ async function setup(e) {
     await loadNodes(e);
     await loadEdges(e);
     await loadAllCars(e);
+    await loadAllBuses(e);
     await loadAllPedestrians(e);
     await loadBuildings(e);
     await loadHouses(e);
