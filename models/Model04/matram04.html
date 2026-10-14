@@ -20,7 +20,601 @@
     <button onclick="play()">Start</button>
     <button onclick="stop()">Stop</button>
     
+    <h2>Code</h2>
+    <p>
+        The worker module has been totally refactored it is still in old skool Hemingway
+    </p>
 
+    <h3>JS in webpage</h3>
+
+    <pre>
+        <code>
+// ========================
+// MODULE-LEVEL STATE
+// ========================
+var worker = null;      // handle to the dedicated worker
+var step = 8726;        // NOTE: declared but unused — dead code
+var stepLable = null;   // DOM element that displays "Step: N" (typo: "Lable")
+
+
+// ========================
+// PLAYBACK CONTROLS (exposed on window for HTML buttons)
+// ========================
+
+// Ask the worker to start animating.
+window.play = function play() {
+    worker.postMessage({
+        type: "play",
+    })
+}
+
+// Ask the worker to stop animating.
+window.stop = function stop() {
+    worker.postMessage({
+        type: "stop",
+    })
+}
+
+
+// ========================
+// UI HELPERS
+// ========================
+
+// Update the on-screen step counter label.
+function showStep(step) {
+    stepLable.innerHTML = `Step: ${step}`;
+}
+
+
+// ========================
+// INITIALIZATION
+// ========================
+
+// Wire up the OffscreenCanvas, spawn the worker, and hand it the canvas + data URLs.
+function init() {
+    // Grab DOM references
+    const canvas = document.getElementById("nodeCanvas");
+    stepLable = document.getElementById("step");
+
+    // Detach the canvas from the DOM and get an OffscreenCanvas we can transfer
+    // to the worker. After this call, main thread can no longer use the 2D context.
+    const offscreen = canvas.transferControlToOffscreen();
+
+    // Read layout size so worker can size its OffscreenCanvas layers to match.
+    const rect = canvas.getBoundingClientRect();
+
+    // Spawn worker as an ES module (so it can `import` Node/Edge/etc.)
+    worker = new Worker("./js/worker.js", { type: "module" });
+    console.log("here");
+
+    // Log any uncaught errors thrown inside the worker.
+    worker.onerror = function (error) {
+        console.error("Worker error:", error);
+        console.error("Message:", error.message);
+        console.error("Filename:", error.filename);
+        console.error("Line:", error.lineno);
+    };
+
+    // Friendly status message while the worker fetches & parses CSVs
+    stepLable.innerHTML = `Data loading please wait ~ 10 sec`;
+
+    // Kick off the worker: hand over the canvas (transferable) and all data URLs.
+    worker.postMessage(
+        {
+            type: "init",
+            canvas: offscreen,                          // transferred, not copied
+            desiredWidth: Math.round(rect.width),
+            desiredHeight: Math.round(rect.height),
+            nodeFile: "../../../data/static/node_list.csv",
+            edgeFile: "../../../data/static/link_list.csv",
+            carsFile: "../../../data/dynamic/cars_xy_compact.csv",
+            pedestrianFile: "../../../data/dynamic/pedestrians_xy_compact.csv",
+            buildingFile: "../../../data/static/building_list.csv",
+            houseFile: "../../../data/static/house_list.csv",
+        },
+        [offscreen],   // transfer list — moves ownership to worker
+    );
+
+    // Handle progress updates from the worker (currently just step number).
+    worker.onmessage = function (e) {
+        switch (e.data.type) {
+            case "step":
+                showStep(e.data.step);
+                break;
+        }
+    }
+}
+
+// Boot once the DOM is parsed.
+document.addEventListener("DOMContentLoaded", init);
+        </code>
+    </pre>
+
+     <h3>JS in weorket</h3>
+>
+    <pre>
+        <code>
+console.log("worker V04")
+
+// ========================
+// IMPORTS (ES module worker)
+// ========================
+import { Node } from "./node.js";
+import { Edge } from "./edge.js";
+import { Car } from "./car.js";
+import { Building } from "./building.js";
+import { Pedestrians } from "./pedestrians.js";
+
+
+// ========================
+// CONFIGURATION CONSTANTS
+// ========================
+var ANIMATION_DELAY_MS = 5;      // Delay between animation frames (ms)
+var NODE_RADIUS = 1.3;           // Radius for drawing nodes (unused in this file?)
+var CAR_RADIUS = 2.0;            // Radius for drawing cars on canvas
+var PEDESTRIANS_RADIUS = 2;      // Radius for drawing pedestrians on canvas
+var NODE_COLOR = "black";        // Node fill colour
+var EDGE_COLOR = "#999";         // Edge (road) stroke colour
+var CAR_COLOR = "#d00";          // Car fill colour (red)
+var PEDESTRIANS_COLOR = "#0d0";  // Pedestrian fill colour (green)
+var BUILDING_COLOR = "#FF8C00";  // Building outline colour (orange)
+var HOUSE_COLOR = "#00d";        // House outline colour (blue)
+var BUILDING_SIZE = 3.0;         // Side length of building square in pixels
+
+// ========================
+// GLOBAL STATE GROUPED
+// ========================
+
+// Canvas contexts
+var canvas = null;          // Main OffscreenCanvas handed in from main thread
+var nodeCanvas = null;      // Static layer: network (edges + buildings), drawn once
+var bufferCanvas = null;    // Composite layer: nodeCanvas + dynamic actors
+var ctx = null;             // Context of main canvas
+var bufferCtx = null;       // Context of bufferCanvas
+var nodeCtx = null;         // Context of nodeCanvas
+
+// Scaling
+var scaleX = 0.0;           // Horizontal scale to fit data into viewport
+var scaleY = 0.0;           // Vertical scale to fit data into viewport
+var scale = 0;              // Uniform scale (min of scaleX/scaleY) — used for drawing
+
+// Network data
+var nodes = {};             // id -> Node
+var edges = {};             // id -> Edge
+var buildings = {};         // id -> Building (both buildings and houses)
+
+// Animation state
+var cars = {};              // id -> Car (live positions, mutated each step)
+var pedestrians = {};       // id -> Pedestrians
+var allSteps = {};          // step -> [{type, id, x, y}, ...] lookup table
+var minStep = Number.MAX_VALUE; // Earliest step seen in data
+var maxStep = 0;            // Latest step seen in data (used as loop end)
+var running = false;        // Is animation currently playing?
+var animationFrame = null;  // Handle for cancelAnimationFrame
+var currentStepIndex = 0;   // Current playback position
+
+// Viewport
+var H = 0;                  // Viewport height (px)
+var W = 0;                  // Viewport width (px)
+
+// ========================
+// LOADERS
+// ========================
+
+// Load nodes CSV: id,x,y,stopPoint. Also computes bounding box and scale.
+async function loadNodes(e) {
+    const response = await fetch(e.data.nodeFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1); // skip header row
+
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+
+    for (let line of lines) {
+        var parts = line.split(",");
+        var id = parts[0];
+        var x = parseFloat(parts[1]);
+        var y = parseFloat(parts[2]);
+        var stopPoint = parseFloat(parts[3]);
+
+        // Track bounds for auto-scaling
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+        nodes[id] = new Node(id, x, y, stopPoint);
+    }
+
+    // Fit network to desired viewport
+    H = e.data.desiredHeight;
+    W = e.data.desiredWidth;
+    scaleX = W / (maxX - minX);
+    scaleY = H / (maxY - minY);
+    scale = Math.min(scaleX, scaleY); // uniform scale, preserves aspect ratio
+}
+
+// Load buildings CSV: id,x,y. Registered once (first occurrence wins).
+async function loadBuildings(e) {
+    const response = await fetch(e.data.buildingFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1);
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var id = parts[0];
+        var x = parseFloat(parts[1]);
+        var y = parseFloat(parts[2]);
+
+        // Register each building once
+        if (!(id in buildings)) {
+            buildings[id] = new Building("building", id, x, y);
+            buildings[id].x = x;
+            buildings[id].y = y;
+        }
+    }
+}
+
+// Load houses CSV: same shape as buildings, tagged as "house" type.
+async function loadHouses(e) {
+    const response = await fetch(e.data.houseFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1);
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var id = parts[0];
+        var x = parseFloat(parts[1]);
+        var y = parseFloat(parts[2]);
+
+        // Register each building once
+        if (!(id in buildings)) {
+            buildings[id] = new Building("house", id, x, y);
+            buildings[id].x = x;
+            buildings[id].y = y;
+        }
+    }
+}
+
+// Load edges CSV: id,startNode,endNode,speed,junction.
+// Links each edge to its two endpoint nodes.
+async function loadEdges(e) {
+    const response = await fetch(e.data.edgeFile);
+    const text = await response.text();
+    const lines = text.trim().split("\n").slice(1);
+
+    for (let line of lines) {
+        var parts = line.split(",");
+        var id = parts[0];
+        var start = parts[1];
+        var end = parts[2];
+        var speed = parts[3];
+        var juntion = parts[4];
+        edges[id] = new Edge(id, nodes[start], nodes[end], speed, juntion);
+        nodes[start].link(edges[id]);
+        nodes[end].link(edges[id]);
+    }
+}
+
+// Load car trajectory CSV: row,step,id,x,y.
+// Builds allSteps index and registers each car once.
+async function loadAllCars(e) {
+    console.log("Loading all car data...");
+
+    var response = await fetch(e.data.carsFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = Number(parts[1]);
+        var id = parts[2];
+        var x = parseFloat(parts[3]);
+        var y = parseFloat(parts[4]);
+
+        // Track global step range (shared with pedestrians)
+        if (step < minStep) {
+            minStep = step;
+        }
+        if (step > maxStep) {
+            maxStep = step;
+        }
+
+        // Build step index — bucket of all actors active at each step
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+        }
+
+        allSteps[step].push({
+            type: 'car',
+            id: id,
+            x: x,
+            y: y
+        });
+
+        // Register each car once
+        if (!(id in cars)) {
+            cars[id] = new Car(id, x, y);
+            cars[id].x = x;
+            cars[id].y = y;
+        }
+    }
+    console.log("cars", Object.keys(cars).length, Object.keys(cars)[9]);
+}
+
+// Load pedestrian trajectory CSV: row,step,id,x,y. Mirrors loadAllCars.
+async function loadAllPedestrians(e) {
+    console.log("Loading all pedestrians data...");
+
+    var response = await fetch(e.data.pedestrianFile);
+    var text = await response.text();
+    var lines = text.trim().split('\n').slice(1);
+
+    for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(',');
+        var row = parts[0];
+        var step = Number(parts[1]);
+        var id = parts[2];
+        var x = parseFloat(parts[3]);
+        var y = parseFloat(parts[4]);
+
+        // Track global step range
+        if (step < minStep) {
+            minStep = step;
+        }
+        if (step > maxStep) {
+            maxStep = step;
+        }
+
+        // Build step index
+        if (!allSteps[step]) {
+            allSteps[step] = [];
+        }
+
+        allSteps[step].push({
+            type: 'pedestrian',
+            id: id,
+            x: x,
+            y: y
+        });
+
+        // Register each pedestrian once
+        if (!(id in pedestrians)) {
+            pedestrians[id] = new Pedestrians(id, x, y);
+            pedestrians[id].x = x;
+            pedestrians[id].y = y;
+        }
+    }
+    console.log("pedestrians", Object.keys(pedestrians).length, Object.keys(pedestrians)[9]);
+}
+
+// ========================
+// RENDERING
+// ========================
+
+// Draw static network (edges + buildings) onto the node layer.
+// Note: y is flipped (H - y*scale) because canvas y grows downward.
+function drawNetwork(ctx) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = NODE_COLOR;
+    ctx.strokeStyle = EDGE_COLOR;
+    ctx.lineWidth = 1;
+
+    // Draw all edges as straight lines between endpoints
+    for (var key in edges) {
+        const edge = edges[key];
+        ctx.beginPath();
+        ctx.moveTo(edge.start.x * scale, H - edge.start.y * scale);
+        ctx.lineTo(edge.end.x * scale, H - edge.end.y * scale);
+        ctx.stroke();
+    }
+
+    // Draw buildings/houses as small squares with a colour-coded stroke
+    for (var key in buildings) {
+        const building = buildings[key];
+        if (building.type == 'building') {
+            ctx.strokeStyle = BUILDING_COLOR;
+        } else {
+            ctx.strokeStyle = HOUSE_COLOR;
+        }
+        ctx.beginPath();
+        ctx.strokeRect(
+            building.x * scale,
+            H - building.y * scale,
+            BUILDING_SIZE,
+            BUILDING_SIZE,
+        );
+        ctx.fill();
+    }
+}
+
+// Draw all cars as filled circles at their current positions.
+function drawCar(ctx) {
+    ctx.fillStyle = CAR_COLOR;
+    for (var key in cars) {
+        const car = cars[key];
+        ctx.beginPath();
+        ctx.arc(car.x * scale, H - car.y * scale, CAR_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Draw all pedestrians as filled circles at their current positions.
+function drawPedestrians(ctx) {
+    ctx.fillStyle = PEDESTRIANS_COLOR;
+    for (var key in pedestrians) {
+        const car = pedestrians[key]; // (naming: really a pedestrian)
+        ctx.beginPath();
+        ctx.arc(car.x * scale, H - car.y * scale, PEDESTRIANS_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Compose the frame: static layer + dynamic actors → main canvas.
+// Two-stage draw (nodeCanvas → bufferCanvas → ctx) avoids re-rendering the
+// static network every frame.
+function draw(nodeCanvas, bufferCanvas, bufferCtx, ctx) {
+    ctx.clearRect(0, 0, W, H);
+    bufferCtx.clearRect(0, 0, W, H);
+    bufferCtx.drawImage(nodeCanvas, 0, 0); // copy static network
+    drawCar(bufferCtx);                    // overlay cars
+    drawPedestrians(bufferCtx);            // overlay pedestrians
+    ctx.drawImage(bufferCanvas, 0, 0);     // present to main canvas
+}
+
+// ========================
+// ANIMATION CONTROLS
+// ========================
+
+// Apply all actor position updates for a given step.
+// Bounds-checked: silently ignores steps that have no data.
+function updatePositions(step) {
+    if (!(step in allSteps)) return;
+    var stepData = allSteps[step];
+    for (var i = 0; i < stepData.length; i++) {
+
+        var data = stepData[i];
+        var id = data.id;
+        var x = data.x;
+        var y = data.y;
+        if (data.type == 'car') {
+            if (id in cars) {
+                cars[id].x = x;
+                cars[id].y = y;
+            }
+        }
+        if (data.type == 'pedestrian') {
+            if (id in pedestrians) {
+                pedestrians[id].x = x;
+                pedestrians[id].y = y;
+            }
+        }
+    }
+}
+
+// Advance to currentStepIndex, notify main thread, and redraw.
+function renderCurrentStep() {
+    updatePositions(currentStepIndex);
+    self.postMessage({
+        type: "step",
+        step: currentStepIndex,
+    },) // main thread can display progress / slider
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+}
+
+// Animation loop: render current step, then schedule next via rAF after a delay.
+function animate() {
+    if (!running) return; // stop flag may be set externally
+
+    renderCurrentStep();
+    currentStepIndex++;
+
+    if (currentStepIndex < maxStep) {
+        // throttle to ANIMATION_DELAY_MS between frames
+        setTimeout(function () {
+            animationFrame = requestAnimationFrame(animate);
+        }, ANIMATION_DELAY_MS);
+    } else {
+        console.log("Animation complete at step " + currentStepIndex);
+        running = false;
+    }
+}
+
+// Start playback.
+function play() {
+    running = true;
+    animate();
+}
+
+// Stop playback and cancel any pending frame.
+function stop() {
+    running = false;
+    if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
+}
+
+// ========================
+// INITIALIZATION
+// ========================
+
+// Boot: receive canvas + data URLs, create layers, load data, draw first frame.
+async function setup(e) {
+    canvas = e.data.canvas;
+    const bufWidth = canvas.width || e.data.desiredWidth;
+    const bufHeight = canvas.height || e.data.desiredHeight;
+
+    // Three-layer rendering pipeline
+    bufferCanvas = new OffscreenCanvas(bufWidth, bufHeight);   // composite
+    bufferCtx = bufferCanvas.getContext("2d");
+    nodeCanvas = new OffscreenCanvas(bufWidth, bufHeight);     // static
+    nodeCtx = nodeCanvas.getContext("2d");
+    ctx = canvas.getContext("2d");                              // output
+
+    // Load all data in dependency order (nodes before edges, etc.)
+    await loadNodes(e);
+    await loadEdges(e);
+    await loadAllCars(e);
+    await loadAllPedestrians(e);
+    await loadBuildings(e);
+    await loadHouses(e);
+
+    // Draw first frame
+    drawNetwork(nodeCtx);          // static layer built once
+    updatePositions(0);            // apply step 0 positions
+    draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
+
+    // Start animation
+    currentStepIndex = 4000;       // NOTE: hard-coded start offset — likely debug
+    self.postMessage({
+        type: "step",
+        step: currentStepIndex,
+    },) // tell main thread where we are
+}
+
+// ========================
+// MESSAGE HANDLERS
+// ========================
+
+function handleInit(e) {
+    setup(e); // not awaited — fine, sets up pipeline asynchronously
+}
+
+function handlePlay(e) {
+    play();
+}
+
+function handleStop(e) {
+    stop();
+}
+
+// Jump to a specific step, then render it immediately.
+// BUG: `stepCount` is not defined anywhere — should probably be `maxStep`.
+function handleSeek(e) {
+    var targetIndex = parseInt(e.data.step);
+    if (targetIndex >= 0 && targetIndex < stepCount) {
+        currentStepIndex = targetIndex;
+        renderCurrentStep();
+    }
+}
+
+// Main message dispatcher — called from main thread via worker.postMessage.
+onmessage = function (e) {
+    switch (e.data.type) {
+        case "init":
+            handleInit(e);
+            break;
+        case "play":
+            handlePlay(e);
+            break;
+        case "stop":
+            handleStop(e);
+            break;
+        case "seek":
+            handleSeek(e);
+            break;
+    }
+};
+        </code>
+    </pre>   
     <script type="module">
         var worker = null;
         var step = 8726;
