@@ -3,7 +3,7 @@ import { Node } from "./node.js";
 import { Edge } from "./edge.js";
 import { Car } from "./car.js";
 import { Building } from "./building.js";
-import { Pedestrians} from "./pedestrians.js";
+import { Pedestrians } from "./pedestrians.js";
 
 
 // ========================
@@ -46,7 +46,7 @@ var buildings = {};
 // Animation state
 var cars = {};
 var pedestrians = {};
-var allSteps = {};  
+var allSteps = {};
 var minStep = Number.MAX_VALUE;
 var maxStep = 0;
 var running = false;
@@ -98,10 +98,10 @@ async function loadBuildings(e) {
         var id = parts[0];
         var x = parseFloat(parts[1]);
         var y = parseFloat(parts[2]);
-        
+
         // Register each building once
         if (!(id in buildings)) {
-            buildings[id] = new Building("building",id, x, y);
+            buildings[id] = new Building("building", id, x, y);
             buildings[id].x = x;
             buildings[id].y = y;
         }
@@ -118,10 +118,10 @@ async function loadHouses(e) {
         var id = parts[0];
         var x = parseFloat(parts[1]);
         var y = parseFloat(parts[2]);
-        
+
         // Register each building once
         if (!(id in buildings)) {
-            buildings[id] = new Building("house",id, x, y);
+            buildings[id] = new Building("house", id, x, y);
             buildings[id].x = x;
             buildings[id].y = y;
         }
@@ -161,10 +161,10 @@ async function loadAllCars(e) {
         var x = parseFloat(parts[3]);
         var y = parseFloat(parts[4]);
 
-        if(step<minStep){
-            minStep=step;
+        if (step < minStep) {
+            minStep = step;
         }
-        if(step>maxStep){
+        if (step > maxStep) {
             maxStep = step;
         }
 
@@ -174,7 +174,7 @@ async function loadAllCars(e) {
         }
 
         allSteps[step].push({
-            type : 'car',
+            type: 'car',
             id: id,
             x: x,
             y: y
@@ -187,7 +187,7 @@ async function loadAllCars(e) {
             cars[id].y = y;
         }
     }
-    console.log("cars",Object.keys(cars).length,Object.keys(cars)[9]);
+    console.log("cars", Object.keys(cars).length, Object.keys(cars)[9]);
 }
 
 
@@ -206,10 +206,10 @@ async function loadAllPedestrians(e) {
         var x = parseFloat(parts[3]);
         var y = parseFloat(parts[4]);
 
-        if(step<minStep){
-            minStep=step;
+        if (step < minStep) {
+            minStep = step;
         }
-        if(step>maxStep){
+        if (step > maxStep) {
             maxStep = step;
         }
 
@@ -232,7 +232,7 @@ async function loadAllPedestrians(e) {
             pedestrians[id].y = y;
         }
     }
-    console.log("pedestrians",Object.keys(pedestrians).length,Object.keys(pedestrians)[9]);
+    console.log("pedestrians", Object.keys(pedestrians).length, Object.keys(pedestrians)[9]);
 }
 
 // ========================
@@ -253,13 +253,13 @@ function drawNetwork(ctx) {
         ctx.stroke();
     }
 
-    
+
 
     for (var key in buildings) {
         const building = buildings[key];
-        if (building.type =='building'){
+        if (building.type == 'building') {
             ctx.strokeStyle = BUILDING_COLOR;
-        }else{
+        } else {
             ctx.strokeStyle = HOUSE_COLOR;
         }
         ctx.beginPath();
@@ -317,13 +317,13 @@ function updatePositions(step) {
         var id = data.id;
         var x = data.x;
         var y = data.y;
-        if(data.type == 'car'){
+        if (data.type == 'car') {
             if (id in cars) {
                 cars[id].x = x;
                 cars[id].y = y;
             }
         }
-        if(data.type == 'pedestrian'){
+        if (data.type == 'pedestrian') {
             if (id in pedestrians) {
                 pedestrians[id].x = x;
                 pedestrians[id].y = y;
@@ -400,6 +400,10 @@ async function setup(e) {
 
     // Start animation
     currentStepIndex = 4000;
+    self.postMessage({
+        type: "step",
+        step: currentStepIndex,
+    },)
 }
 
 // ========================

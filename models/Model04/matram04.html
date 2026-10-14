@@ -60,6 +60,7 @@
                 console.error("Filename:", error.filename);
                 console.error("Line:", error.lineno);
             };
+            stepLable.innerHTML= `Data loading please wait ~ 10 sec`;
             worker.postMessage(
                 {
                     type: "init",
