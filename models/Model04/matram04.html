@@ -586,15 +586,6 @@ function handleStop(e) {
     stop();
 }
 
-// Jump to a specific step, then render it immediately.
-// BUG: `stepCount` is not defined anywhere — should probably be `maxStep`.
-function handleSeek(e) {
-    var targetIndex = parseInt(e.data.step);
-    if (targetIndex >= 0 && targetIndex < stepCount) {
-        currentStepIndex = targetIndex;
-        renderCurrentStep();
-    }
-}
 
 // Main message dispatcher — called from main thread via worker.postMessage.
 onmessage = function (e) {
@@ -607,9 +598,6 @@ onmessage = function (e) {
             break;
         case "stop":
             handleStop(e);
-            break;
-        case "seek":
-            handleSeek(e);
             break;
     }
 };
