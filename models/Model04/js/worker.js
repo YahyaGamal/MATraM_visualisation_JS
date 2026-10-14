@@ -6,6 +6,10 @@ import { Building } from "./building.js";
 import { Pedestrians } from "./pedestrians.js";
 
 
+var DEMO_START_STEP = 4000; // start here so the demo shows activity immediately
+
+
+
 // ========================
 // CONFIGURATION CONSTANTS
 // ========================
@@ -241,7 +245,6 @@ async function loadAllPedestrians(e) {
 
 function drawNetwork(ctx) {
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = NODE_COLOR;
     ctx.strokeStyle = EDGE_COLOR;
     ctx.lineWidth = 1;
 
@@ -269,7 +272,6 @@ function drawNetwork(ctx) {
             BUILDING_SIZE,
             BUILDING_SIZE,
         );
-        ctx.fill();
     }
 }
 
@@ -399,7 +401,7 @@ async function setup(e) {
     draw(nodeCanvas, bufferCanvas, bufferCtx, ctx);
 
     // Start animation
-    currentStepIndex = 4000;
+    currentStepIndex = DEMO_START_STEP;
     self.postMessage({
         type: "step",
         step: currentStepIndex,
@@ -422,13 +424,7 @@ function handleStop(e) {
     stop();
 }
 
-function handleSeek(e) {
-    var targetIndex = parseInt(e.data.step);
-    if (targetIndex >= 0 && targetIndex < stepCount) {
-        currentStepIndex = targetIndex;
-        renderCurrentStep();
-    }
-}
+
 
 onmessage = function (e) {
     switch (e.data.type) {
@@ -441,8 +437,6 @@ onmessage = function (e) {
         case "stop":
             handleStop(e);
             break;
-        case "seek":
-            handleSeek(e);
-            break;
+
     }
 };
